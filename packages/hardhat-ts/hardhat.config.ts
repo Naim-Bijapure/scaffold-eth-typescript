@@ -160,6 +160,7 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     outDir: '../vite-app-ts/src/generated/contract-types',
+    // outDir: '../hardhat-ts/contract-types',
   },
 };
 export default config;
@@ -337,7 +338,7 @@ task('account', 'Get balance informations for the deployment account.', async (_
   }
 });
 
-const findFirstAddr = async (ethers: THardhatDeployEthers, addr: string): Promise<string> => {
+const findFirstAddr = async (ethers: THardhatDeployEthers | any, addr: string): Promise<string> => {
   if (isAddress(addr)) {
     return getAddress(addr);
   }
