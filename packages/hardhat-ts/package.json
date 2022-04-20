@@ -9,7 +9,7 @@
     "compile": "hardhat compile",
     "deploy": "hardhat deploy --export-all ../vite-app-ts/src/generated/hardhat_contracts.json",
     "postdeploy": "hardhat run scripts/publish.ts",
-    "watch": "node scripts/watch.js",
+    "watch": "node scripts/watch.ts",
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",
     "send": "hardhat send",

@@ -8,6 +8,7 @@ import "hardhat/console.sol";
 contract YourContract {
   string public purpose = "Building Unstoppable Apps!!!";
 
+
   // this is an error handler
   //error EmptyPurposeError(uint code, string message);
 

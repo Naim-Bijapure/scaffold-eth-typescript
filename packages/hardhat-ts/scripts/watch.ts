@@ -1,8 +1,10 @@
-import { exec } from 'child_process';
+// import { exec } from 'child_process';
+// import watch from 'node-watch';
 
-import watch from 'node-watch';
+const watch = require('node-watch');
+const { exec } = require('child_process');
 
-const run = (): void => {
+const run = () => {
   console.log('🛠  Compiling & Deploying...');
   exec('yarn deploy', function (error, stdout, stderr) {
     console.log(stdout);

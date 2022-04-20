@@ -13,10 +13,19 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "MetaMultiSigWallet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MetaMultiSigWallet__factory>;
+    getContractFactory(
       name: "YourContract",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YourContract__factory>;
 
+    getContractAt(
+      name: "MetaMultiSigWallet",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MetaMultiSigWallet>;
     getContractAt(
       name: "YourContract",
       address: string,
