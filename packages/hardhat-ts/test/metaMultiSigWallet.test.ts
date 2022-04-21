@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
-describe('YourContract', function () {
+describe.skip('YourContract', function () {
   it("Should return the new purpose once it's changed", async function () {
     const YourContract = await ethers.getContractFactory('YourContract');
     const yourContract = await YourContract.deploy();

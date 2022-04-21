@@ -1797,6 +1797,7 @@ __metadata:
     hardhat: ^2.8.4
     hardhat-deploy: ^0.9.29
     hardhat-deploy-ethers: ^0.3.0-beta.13
+    hardhat-watcher: ^2.1.1
     ipfs-http-client: ^54.0.2
     mocha: ^9.2.1
     node-watch: ^0.7.3
@@ -5935,7 +5936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.3, chokidar@npm:^3.0.2, chokidar@npm:^3.4.0, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
+"chokidar@npm:3.5.3, chokidar@npm:^3.0.2, chokidar@npm:^3.4.0, chokidar@npm:^3.4.3, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -10981,6 +10982,17 @@ __metadata:
     "@ethersproject/hardware-wallets": ^5.0.14
     hardhat: ^2.6.8
   checksum: 065495376ccb9c1508fec16eeaf54f86d4cb40ccbdd9f2debceb90d8c0b3d75be1c163c08000d3190bd3729b79ba8f47ddfab3d448b918dafef2cc441a5eb487
+  languageName: node
+  linkType: hard
+
+"hardhat-watcher@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "hardhat-watcher@npm:2.1.1"
+  dependencies:
+    chokidar: ^3.4.3
+  peerDependencies:
+    hardhat: ^2.0.0
+  checksum: 1bd2e5b136c189260b9c38995e264eb76ee4b510abae79fe9193ced4817d01c5568eb1944bb9b83628448d927c689c3aa9aed6205ff7e6ad17aa6f14b77a2031
   languageName: node
   linkType: hard
 

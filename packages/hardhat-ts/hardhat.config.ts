@@ -17,6 +17,7 @@ import '@nomiclabs/hardhat-ethers';
 import '@tenderly/hardhat-tenderly';
 import 'hardhat-deploy';
 import 'solidity-coverage';
+import 'hardhat-watcher';
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -161,6 +162,16 @@ const config: HardhatUserConfig = {
   typechain: {
     // outDir: '../vite-app-ts/src/generated/contract-types',
     outDir: '../hardhat-ts/contract-types',
+  },
+  watcher: {
+    compilation: {
+      tasks: ['compile'],
+    },
+    test: {
+      tasks: [{ command: 'test', params: { testFiles: ['{path}'] } }],
+      files: ['./test/**/*'],
+      verbose: true,
+    },
   },
 };
 export default config;
