@@ -12,6 +12,12 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
+  await deploy('MetaMultiSigWallet', {
+    from: deployer,
+    args: [31337, ['0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1'], 1],
+    log: true,
+  });
+
   /*
     // Getting a previously deployed contract
     const YourContract = await ethers.getContract("YourContract", deployer);
@@ -21,7 +27,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   */
 };
 export default func;
-func.tags = ['YourContract'];
+func.tags = ['YourContract', 'MetaMultiSigWallet'];
 
 /*
 Tenderly verification

@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import { GenericContract } from 'eth-components/ant/generic-contract';
 import { useEthersContext } from 'eth-hooks/context';
 import React, { FC } from 'react';
@@ -5,6 +6,7 @@ import React, { FC } from 'react';
 import { IScaffoldAppProviders } from '~~/components/main/hooks/useScaffoldAppProviders';
 import { useAppContracts } from '~~/config/contractContext';
 import { NETWORKS } from '~~/models/constants/networks';
+
 export interface IMainPageContractsProps {
   scaffoldAppProviders: IScaffoldAppProviders;
 }
@@ -39,6 +41,15 @@ export const MainPageContracts: FC<IMainPageContractsProps> = (props) => {
           mainnetAdaptor={props.scaffoldAppProviders.mainnetAdaptor}
           blockExplorer={props.scaffoldAppProviders.targetNetwork.blockExplorer}
         />
+        <Button
+          onClick={async (): any => {
+            console.log('ethersContext: ', ethersContext.account);
+            const tx = await yourContract?.setPurpose('yo man');
+            const rcpt = await tx?.wait();
+            console.log('rcpt: ', rcpt);
+          }}>
+          test
+        </Button>
 
         {/* **********
          * ❓ uncomment for a second contract:

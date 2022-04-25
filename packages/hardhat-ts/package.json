@@ -20,7 +20,7 @@
     "solhint": "solhint ./contracts/**/*.sol",
     "format": "yarn prettier -w ./deploy/**/*.ts ./scripts/**/*.ts ./test/**/*.ts ./helpers/**/*.ts contracts/**/*.sol ",
     "format:check": "yarn prettier -c ./deploy/**/*.ts ./scripts/**/*.ts ./test/**/*.ts ./helpers/**/*.ts ./contracts/**/*.sol ",
-    "watch_test": "hardhat watch compilation & hardhat watch test"
+    "watch_test": "hardhat watch compilation & hardhat watch test --network localhost"
   },
   "dependencies": {
     "@atixlabs/hardhat-time-n-mine": "^0.0.5",
@@ -47,7 +47,7 @@
     "chalk": "^4.1.2",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.5.4",
-    "hardhat": "^2.8.4",
+    "hardhat": "^2.9.1",
     "hardhat-deploy": "^0.9.29",
     "hardhat-deploy-ethers": "^0.3.0-beta.13",
     "hardhat-watcher": "^2.1.1",

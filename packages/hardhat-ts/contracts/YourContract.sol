@@ -8,7 +8,6 @@ import "hardhat/console.sol";
 contract YourContract {
   string public purpose = "Building Unstoppable Apps!!!";
 
-
   // this is an error handler
   //error EmptyPurposeError(uint code, string message);
 
@@ -30,6 +29,7 @@ contract YourContract {
     // }
 
     purpose = newPurpose;
+    console.log("purpose: ", purpose);
     console.log(msg.sender, "set purpose to", purpose);
     emit SetPurpose(msg.sender, purpose);
   }

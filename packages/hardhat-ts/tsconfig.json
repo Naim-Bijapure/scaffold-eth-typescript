@@ -26,9 +26,10 @@
       "contracts/*": ["./contracts/*"],
       "tests/*": ["./tests/*"],
       "typechain/*": ["./typechain/*"]
-    }
+    },
+    "noImplicitAny": false
   },
-  "include": ["types", "scripts", "test", "helpers", "./hardhat.config.ts", "./deploy","contract-types"],
+  "include": ["types", "scripts", "test", "helpers", "./hardhat.config.ts", "./deploy", "contract-types"],
   "exclude": ["**/node_modules", ".husky", "./src/styles/css", "./tailwind.config.js"],
   "files": ["./hardhat.config.ts", "helpers/types/__global.ts"]
 }

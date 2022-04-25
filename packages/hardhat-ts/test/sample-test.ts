@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import { BigNumber } from 'ethers';
 import { ethers, waffle } from 'hardhat';
 
-describe('YourContract', function () {
+describe.skip('YourContract', function () {
   it("Should return the new purpose once it's changed", async function () {
     const YourContract = await ethers.getContractFactory('YourContract');
     const yourContract = await YourContract.deploy();

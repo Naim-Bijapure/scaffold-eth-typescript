@@ -12,6 +12,9 @@ pragma solidity >=0.8.0 <0.9.0;
 // pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "hardhat/console.sol";
+import "./MultiSigFactory.sol";
 
 contract MetaMultiSigWallet {
   using ECDSA for bytes32;
@@ -23,13 +26,19 @@ contract MetaMultiSigWallet {
   uint256 public signaturesRequired;
   uint256 public nonce;
   uint256 public chainId;
+  IERC20 private _token;
+  // factory
+  MultiSigFactory private multiSigFactory;
+  address[] public owners;
 
   constructor(
     uint256 _chainId,
     address[] memory _owners,
-    uint256 _signaturesRequired
-  ) {
+    uint256 _signaturesRequired,
+    address _factory
+  ) payable {
     require(_signaturesRequired > 0, "constructor: must be non-zero sigs required");
+    multiSigFactory = MultiSigFactory(_factory);
     signaturesRequired = _signaturesRequired;
     for (uint256 i = 0; i < _owners.length; i++) {
       address owner = _owners[i];
@@ -53,6 +62,7 @@ contract MetaMultiSigWallet {
     isOwner[newSigner] = true;
     signaturesRequired = newSignaturesRequired;
     emit Owner(newSigner, isOwner[newSigner]);
+    multiSigFactory.emitOwners(address(this), owners, newSignaturesRequired);
   }
 
   function removeSigner(address oldSigner, uint256 newSignaturesRequired) public onlySelf {
@@ -61,6 +71,7 @@ contract MetaMultiSigWallet {
     isOwner[oldSigner] = false;
     signaturesRequired = newSignaturesRequired;
     emit Owner(oldSigner, isOwner[oldSigner]);
+    multiSigFactory.emitOwners(address(this), owners, newSignaturesRequired);
   }
 
   function updateSignaturesRequired(uint256 newSignaturesRequired) public onlySelf {
@@ -100,6 +111,7 @@ contract MetaMultiSigWallet {
     require(validSignatures >= signaturesRequired, "executeTransaction: not enough valid signatures");
 
     (bool success, bytes memory result) = to.call{ value: value }(data);
+    console.log("multiSigFactory: ", address(multiSigFactory));
     require(success, "executeTransaction: tx failed");
 
     emit ExecuteTransaction(msg.sender, to, value, data, nonce - 1, _hash, result);
