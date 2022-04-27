@@ -30,9 +30,9 @@ export const contractConnectorConfig = () => {
         hardhatContractsJson
       ),
 
-      MetaMultiSigWallet: createConnectorForHardhatContract(
-        'MetaMultiSigWallet',
-        hardhatContracts.MetaMultiSigWallet__factory,
+      MultiSigFactory: createConnectorForHardhatContract(
+        'MultiSigFactory',
+        hardhatContracts.MultiSigFactory__factory,
         hardhatContractsJson
       ),
 

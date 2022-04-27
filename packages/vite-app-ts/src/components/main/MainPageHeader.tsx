@@ -31,42 +31,29 @@ export const MainPageHeader: FC<IMainPageHeaderProps> = (props) => {
    * this shows the page header and other informaiton
    */
   const left = (
-    <>
+    <div className="self-end">
       <div>
-        <PageHeader
-          title="🏭 Scaffold-Eth"
-          subTitle={
-            <span>
-              v2.1 - [
-              <a href="https://youtu.be/aYMj00JoIug" target="_blank" rel="noreferrer">
-                <span style={{ marginRight: 4 }}>🎥 </span> 8min speed run
-              </a>
-              ] - [
-              <a href="https://trello.com/b/ppbUs796/buidlguidlcom-idea-board" target="_blank" rel="noreferrer">
-                <span style={{ marginRight: 4 }}>💡 </span> trello
-              </a>
-              ]{' '}
-            </span>
-          }
-          style={{ cursor: 'pointer' }}
-        />
+        <PageHeader title="MultiSig Wallet 👛" subTitle={<span></span>} style={{ cursor: 'pointer' }} />
       </div>
       {props.children}
-    </>
+    </div>
   );
 
   /**
    * 👨‍💼 Your account is in the top right with a wallet at connect options
    */
   const right = (
-    <div style={{ position: 'fixed', textAlign: 'right', right: 0, top: 0, padding: 10, zIndex: 1 }}>
-      <Account
-        createLoginConnector={props.scaffoldAppProviders.createLoginConnector}
-        ensProvider={props.scaffoldAppProviders.mainnetAdaptor?.provider}
-        price={props.price}
-        blockExplorer={props.scaffoldAppProviders.targetNetwork.blockExplorer}
-        hasContextConnect={true}
-      />
+    // <div style={{ position: 'fixed', textAlign: 'right', right: 0, top: 0, padding: 10, zIndex: 1 }}>
+    <div style={{}} className="">
+      <div className="account-header ">
+        <Account
+          createLoginConnector={props.scaffoldAppProviders.createLoginConnector}
+          ensProvider={props.scaffoldAppProviders.mainnetAdaptor?.provider}
+          price={props.price}
+          blockExplorer={props.scaffoldAppProviders.targetNetwork.blockExplorer}
+          hasContextConnect={true}
+        />
+      </div>
       <FaucetHintButton scaffoldAppProviders={props.scaffoldAppProviders} gasPrice={gasPrice} />
       {props.children}
     </div>
@@ -84,7 +71,8 @@ export const MainPageHeader: FC<IMainPageHeaderProps> = (props) => {
       </div>
     );
     networkDisplay = (
-      <div style={{ zIndex: 2, position: 'absolute', right: 0, top: 90, padding: 16 }}>
+      // <div style={{ zIndex: 2, position: 'absolute', right: 0, top: 90, padding: 16 }}>
+      <div style={{}}>
         <Alert message="⚠️ Wrong Network" description={description} type="error" closable={false} />
       </div>
     );
@@ -92,22 +80,25 @@ export const MainPageHeader: FC<IMainPageHeaderProps> = (props) => {
     networkDisplay = (
       <div
         style={{
-          position: 'absolute',
-          right: 16,
-          top: 84,
-          padding: 10,
+          // position: 'absolute',
+          // right: 7,
+          // top: 70,
+          // padding: 5,
           color: props.scaffoldAppProviders.targetNetwork.color,
-        }}>
+        }}
+        className="border border-blue-400 rounded-sm w-16 m-1  ">
         {props.scaffoldAppProviders.targetNetwork.name}
       </div>
     );
   }
 
   return (
-    <>
-      {left}
-      {networkDisplay}
-      {right}
-    </>
+    <div>
+      <div className="header shadow-md">
+        {left}
+        {right}
+      </div>
+      <div className=" flex justify-end m-1">{networkDisplay}</div>
+    </div>
   );
 };

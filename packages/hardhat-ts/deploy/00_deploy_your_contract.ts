@@ -12,11 +12,17 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
-  await deploy('MetaMultiSigWallet', {
+  await deploy('MultiSigFactory', {
     from: deployer,
-    args: [31337, ['0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1'], 1],
+    // args: [31337, ['0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1'], 1],
     log: true,
   });
+
+  // await deploy('MetaMultiSigWallet', {
+  //   from: deployer,
+  //   args: [31337, ['0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1'], 1],
+  //   log: true,
+  // });
 
   /*
     // Getting a previously deployed contract
@@ -27,7 +33,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   */
 };
 export default func;
-func.tags = ['YourContract', 'MetaMultiSigWallet'];
+func.tags = ['YourContract', 'MultiSigFactory'];
 
 /*
 Tenderly verification

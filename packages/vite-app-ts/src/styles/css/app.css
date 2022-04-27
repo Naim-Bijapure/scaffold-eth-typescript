@@ -54,3 +54,16 @@ code {
 button {
   font-size: calc(10px + 2vmin);
 }
+
+/* .n-account {
+  border: 1px solid red;
+} */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.account-header > div:first-child {
+  display: flex;
+  align-items: center;
+}

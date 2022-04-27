@@ -6,7 +6,6 @@ import "hardhat/console.sol";
 
 contract Monyo is ERC20 {
   constructor(address account, uint256 initialSupply) ERC20("Monyo", "MON") {
-
     _mint(account, initialSupply);
   }
 }

@@ -4,6 +4,7 @@ pragma solidity >=0.8.0 <0.9.0;
 import "./MetaMultiSigWallet.sol";
 
 contract MultiSigFactory {
+
   MetaMultiSigWallet[] public multiSigs;
   mapping(address => bool) existsMultiSig;
 

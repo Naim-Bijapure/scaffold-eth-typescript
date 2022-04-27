@@ -6,3 +6,4 @@ import { lazier } from 'eth-hooks/helpers';
 export const ExampleUI = lazier(() => import('./exampleui/ExampleUI'), 'ExampleUI');
 export const Subgraph = lazier(() => import('./subgraph/Subgraph'), 'Subgraph');
 export const Hints = lazier(() => import('./hints/Hints'), 'Hints');
+export const Home = lazier(() => import('./home/Home'), 'Home');
