@@ -22,6 +22,7 @@ contract MetaMultiSigWallet {
   event Deposit(address indexed sender, uint256 amount, uint256 balance);
   event ExecuteTransaction(address indexed owner, address payable to, uint256 value, bytes data, uint256 nonce, bytes32 hash, bytes result);
   event Owner(address indexed owner, bool added);
+
   mapping(address => bool) public isOwner;
   uint256 public signaturesRequired;
   uint256 public nonce;
@@ -99,8 +100,10 @@ contract MetaMultiSigWallet {
     nonce++;
     uint256 validSignatures;
     address duplicateGuard;
+    address recoveredCheck;
     for (uint256 i = 0; i < signatures.length; i++) {
       address recovered = recover(_hash, signatures[i]);
+      recoveredCheck = recovered;
       require(recovered > duplicateGuard, "executeTransaction: duplicate or unordered signatures");
       duplicateGuard = recovered;
       if (isOwner[recovered]) {
@@ -108,10 +111,12 @@ contract MetaMultiSigWallet {
       }
     }
 
+    // multiSigFactory.emitDebugLog(to, "check owner", validSignatures, isOwner[recoveredCheck], recoveredCheck, _hash);
+
     require(validSignatures >= signaturesRequired, "executeTransaction: not enough valid signatures");
 
     (bool success, bytes memory result) = to.call{ value: value }(data);
-    console.log("multiSigFactory: ", address(multiSigFactory));
+
     require(success, "executeTransaction: tx failed");
 
     emit ExecuteTransaction(msg.sender, to, value, data, nonce - 1, _hash, result);

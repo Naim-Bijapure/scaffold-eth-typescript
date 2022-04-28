@@ -20,7 +20,7 @@
     "solhint": "solhint ./contracts/**/*.sol",
     "format": "yarn prettier -w ./deploy/**/*.ts ./scripts/**/*.ts ./test/**/*.ts ./helpers/**/*.ts contracts/**/*.sol ",
     "format:check": "yarn prettier -c ./deploy/**/*.ts ./scripts/**/*.ts ./test/**/*.ts ./helpers/**/*.ts ./contracts/**/*.sol ",
-    "watch_test": "hardhat watch compilation & hardhat watch test --network localhost"
+    "watch_test": "hardhat watch compilation & hardhat watch test --network hardhat"
   },
   "dependencies": {
     "@atixlabs/hardhat-time-n-mine": "^0.0.5",

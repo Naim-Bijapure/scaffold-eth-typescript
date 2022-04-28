@@ -49,7 +49,7 @@ const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, 
             key={'submit'}
             type="primary"
             onClick={(): void => onSubmit(addressList, signatureCount as number)}
-            disabled={addressList.length === 0 && signatureCount === null}>
+            disabled={addressList.length === 0 || signatureCount === null}>
             Submit
           </Button>,
         ]}>

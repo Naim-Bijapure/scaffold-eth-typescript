@@ -67,3 +67,7 @@ button {
   display: flex;
   align-items: center;
 }
+
+.Owners > span > span {
+  font-size: medium !important;
+}

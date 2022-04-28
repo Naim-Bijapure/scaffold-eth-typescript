@@ -109,7 +109,7 @@ export const Main: FC = () => {
         <Switch>
           <Route exact path="/">
             {/* <MainPageContracts scaffoldAppProviders={scaffoldAppProviders} /> */}
-            <Home />
+            <Home price={ethPrice} scaffoldAppProviders={scaffoldAppProviders} />
           </Route>
           {/* you can add routes here like the below examlples */}
           {/* <Route path="/hints">

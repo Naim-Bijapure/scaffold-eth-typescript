@@ -4,13 +4,14 @@ pragma solidity >=0.8.0 <0.9.0;
 import "./MetaMultiSigWallet.sol";
 
 contract MultiSigFactory {
-
   MetaMultiSigWallet[] public multiSigs;
   mapping(address => bool) existsMultiSig;
 
   event Create(uint256 indexed contractId, address indexed contractAddress, address creator, address[] owners, uint256 signaturesRequired);
 
   event Owners(address indexed contractAddress, address[] owners, uint256 indexed signaturesRequired);
+
+  event DebugLog(address owner, string properTy, uint256 value, bool boolCheck, address addressCheck, bytes32 _hash);
 
   constructor() {}
 
@@ -57,5 +58,16 @@ contract MultiSigFactory {
   {
     MetaMultiSigWallet multiSig = multiSigs[_index];
     return (address(multiSig), multiSig.signaturesRequired(), address(multiSig).balance);
+  }
+
+  function emitDebugLog(
+    address owner,
+    string memory properTy,
+    uint256 value,
+    bool boolCheck,
+    address addressCheck,
+    bytes32 _hash
+  ) public {
+    emit DebugLog(owner, properTy, value, boolCheck, addressCheck, _hash);
   }
 }

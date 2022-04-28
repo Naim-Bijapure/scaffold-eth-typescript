@@ -22,6 +22,7 @@ export interface MultiSigFactoryInterface extends utils.Interface {
   contractName: "MultiSigFactory";
   functions: {
     "create(uint256,address[],uint256)": FunctionFragment;
+    "emitDebugLog(address,string,uint256,bool,address,bytes32)": FunctionFragment;
     "emitOwners(address,address[],uint256)": FunctionFragment;
     "getMultiSig(uint256)": FunctionFragment;
     "multiSigs(uint256)": FunctionFragment;
@@ -31,6 +32,10 @@ export interface MultiSigFactoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "create",
     values: [BigNumberish, string[], BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "emitDebugLog",
+    values: [string, string, BigNumberish, boolean, string, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "emitOwners",
@@ -50,6 +55,10 @@ export interface MultiSigFactoryInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "emitDebugLog",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "emitOwners", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getMultiSig",
@@ -63,10 +72,12 @@ export interface MultiSigFactoryInterface extends utils.Interface {
 
   events: {
     "Create(uint256,address,address,address[],uint256)": EventFragment;
+    "DebugLog(address,string,uint256,bool,address,bytes32)": EventFragment;
     "Owners(address,address[],uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Create"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DebugLog"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Owners"): EventFragment;
 }
 
@@ -82,6 +93,20 @@ export type CreateEvent = TypedEvent<
 >;
 
 export type CreateEventFilter = TypedEventFilter<CreateEvent>;
+
+export type DebugLogEvent = TypedEvent<
+  [string, string, BigNumber, boolean, string, string],
+  {
+    owner: string;
+    properTy: string;
+    value: BigNumber;
+    boolCheck: boolean;
+    addressCheck: string;
+    _hash: string;
+  }
+>;
+
+export type DebugLogEventFilter = TypedEventFilter<DebugLogEvent>;
 
 export type OwnersEvent = TypedEvent<
   [string, string[], BigNumber],
@@ -125,6 +150,16 @@ export interface MultiSigFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    emitDebugLog(
+      owner: string,
+      properTy: string,
+      value: BigNumberish,
+      boolCheck: boolean,
+      addressCheck: string,
+      _hash: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     emitOwners(
       _contractAddress: string,
       _owners: string[],
@@ -155,6 +190,16 @@ export interface MultiSigFactory extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  emitDebugLog(
+    owner: string,
+    properTy: string,
+    value: BigNumberish,
+    boolCheck: boolean,
+    addressCheck: string,
+    _hash: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   emitOwners(
     _contractAddress: string,
     _owners: string[],
@@ -182,6 +227,16 @@ export interface MultiSigFactory extends BaseContract {
       _chainId: BigNumberish,
       _owners: string[],
       _signaturesRequired: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    emitDebugLog(
+      owner: string,
+      properTy: string,
+      value: BigNumberish,
+      boolCheck: boolean,
+      addressCheck: string,
+      _hash: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -224,6 +279,23 @@ export interface MultiSigFactory extends BaseContract {
       signaturesRequired?: null
     ): CreateEventFilter;
 
+    "DebugLog(address,string,uint256,bool,address,bytes32)"(
+      owner?: null,
+      properTy?: null,
+      value?: null,
+      boolCheck?: null,
+      addressCheck?: null,
+      _hash?: null
+    ): DebugLogEventFilter;
+    DebugLog(
+      owner?: null,
+      properTy?: null,
+      value?: null,
+      boolCheck?: null,
+      addressCheck?: null,
+      _hash?: null
+    ): DebugLogEventFilter;
+
     "Owners(address,address[],uint256)"(
       contractAddress?: string | null,
       owners?: null,
@@ -242,6 +314,16 @@ export interface MultiSigFactory extends BaseContract {
       _owners: string[],
       _signaturesRequired: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    emitDebugLog(
+      owner: string,
+      properTy: string,
+      value: BigNumberish,
+      boolCheck: boolean,
+      addressCheck: string,
+      _hash: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     emitOwners(
@@ -270,6 +352,16 @@ export interface MultiSigFactory extends BaseContract {
       _owners: string[],
       _signaturesRequired: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    emitDebugLog(
+      owner: string,
+      properTy: string,
+      value: BigNumberish,
+      boolCheck: boolean,
+      addressCheck: string,
+      _hash: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     emitOwners(
