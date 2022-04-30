@@ -786,3 +786,5 @@ export const BUILDERS = [
     streamUrl: 'http://austingriffith.buidlguidl.com',
   },
 ];
+
+export const BASE_URL = 'https://getpantry.cloud/apiv1/pantry/54f5208f-5312-499a-847e-915b6f054074';

@@ -1,6 +1,9 @@
 import { Card, Collapse } from 'antd';
 import { Address, Balance } from 'eth-components/ant';
+import { IEthersContext } from 'eth-hooks/models';
 import React from 'react';
+import { MetaMultiSigWallet } from '~~/generated/contract-types';
+import TranscactionPool from './TranscactionPool';
 
 const { Panel } = Collapse;
 
@@ -9,9 +12,22 @@ interface IYourMultiSig {
   walletOwners: Array<string>;
   signatureCount: number;
   price: number;
+  walletContract: MetaMultiSigWallet;
+  walletFactory: MetaMultiSigWallet;
+  provider: any;
+  etherContext: IEthersContext;
 }
 
-const YourWallet: React.FC<IYourMultiSig> = ({ walletAddress, walletOwners, signatureCount, price }) => {
+const YourWallet: React.FC<IYourMultiSig> = ({
+  walletAddress,
+  walletOwners,
+  signatureCount,
+  price,
+  etherContext,
+  provider,
+  walletContract,
+  walletFactory,
+}) => {
   function callback(key) {}
 
   const text = `
@@ -23,19 +39,16 @@ const YourWallet: React.FC<IYourMultiSig> = ({ walletAddress, walletOwners, sign
     <div>
       <div className="flex justify-center ">
         <div className="w-[60%]">
-          <Card title="Executed Transcactions">
-            <Collapse defaultActiveKey={['1']} onChange={callback}>
-              <Panel header="This is panel header 1" key="1">
-                <p>{text}</p>
-              </Panel>
-              <Panel header="This is panel header 2" key="2">
-                <p>{text}</p>
-              </Panel>
-              <Panel header="This is panel header 3" key="3">
-                <p>{text}</p>
-              </Panel>
-            </Collapse>
-          </Card>
+          <TranscactionPool
+            key={'1'}
+            isExecutedPool={true}
+            walletAddress={walletAddress}
+            price={price}
+            provider={provider}
+            walletContract={walletContract}
+            walletFactory={walletFactory}
+            etherContext={etherContext}
+          />
         </div>
 
         <div className="w-[40%]">
@@ -53,9 +66,9 @@ const YourWallet: React.FC<IYourMultiSig> = ({ walletAddress, walletOwners, sign
             <div className="Owners">
               {walletOwners.map((address) => {
                 return (
-                  <>
+                  <div key={address}>
                     <Address address={address} />
-                  </>
+                  </div>
                 );
               })}
             </div>
