@@ -53,8 +53,11 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
   // const [owners] = useEventListener<OwnerEvent>(multiSigFactory, multiSigFactory?.filters.Owners(), 0);
   const [owners] = useEventListener<OwnerEvent>(multiSigFactory, 'Owners', 0);
   // const [debugLog] = useEventListener<DebugLogEvent>(multiSigFactory, 'DebugLog', 0);
-  // console.log('Home=> debugLog: ', debugLog[0]?.args);
+  // console.log('Home=> debugLog: ', debugLog);
   console.log('owners: ', owners);
+
+  // owners = owners.length > 0 ? owners[owners.length] : [];
+  // console.log('owners: signature required: ', owners[1].args[2].toString());
 
   const notifyTx: any = transactor(ethComponentsSettings, ethersContext.signer);
 
@@ -95,7 +98,8 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
   };
   // assign contract addresses
   useEffect(() => {
-    const multiSigContracts = owners
+    const lastOwner = owners.length === 0 ? owners : [owners[owners.length - 1]];
+    const multiSigContracts = lastOwner
       .filter((obj) => obj.args[1].includes(ethersContext.account))
       .map((obj) => obj.args[0]);
 
@@ -105,12 +109,13 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
 
   // assign contract wallet addresses
   useEffect(() => {
-    const walletOwners: any = owners
+    const lastOwner = owners.length === 0 ? owners : [owners[owners.length - 1]];
+    const walletOwners: any = lastOwner
       .filter((obj) => obj.args[0] === currentSelectedWallet)
       .map((obj) => obj.args[1])
       .flat();
 
-    let signatureCount: any = owners
+    let signatureCount: any = lastOwner
       .filter((obj) => obj.args[0] === currentSelectedWallet)
       .map((obj) => obj.args[2])
       .flat();
@@ -165,8 +170,17 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
         <div>
           <Button
             onClick={async (): Promise<void> => {
+              const signaturesRequired = await currentContractWallet?.signaturesRequired();
+              console.log('signaturesRequired: ', signaturesRequired?.toNumber());
+
               const isOwner = await currentContractWallet?.isOwner('0xbA4C9A16f4030c2455316Bf2F169bB5b185cCAa4');
               console.log('isOwner: ', isOwner);
+
+              const nounce = await currentContractWallet?.nonce();
+              console.log('nounce: ', nounce?.toNumber());
+
+              const owners = await currentContractWallet?.owners(0);
+              console.log('owners: ', owners);
             }}
             className="flex items-center h-8"
             // icon={<ProposeIcon style={{ color: '#40A9FF' }} className="text-2xl" />}

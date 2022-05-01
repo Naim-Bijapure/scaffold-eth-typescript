@@ -11,7 +11,7 @@ describe.skip('multi sig wallet test', function () {
   let owner: SignerWithAddress;
   let addr1: SignerWithAddress;
   let addr2: SignerWithAddress;
-  let addr3;
+  let addr3: SignerWithAddress;
   let addrs;
 
   let provider: Provider;
@@ -171,5 +171,49 @@ describe.skip('multi sig wallet test', function () {
     console.log('addr2MonyoBalance: ', addr2MonyoBalance);
     const metaMonyoBalance = await monyo.balanceOf(metaMultiSigWallet.address);
     // expect(addr2MonyoBalance).to.equal(amount);
+  });
+
+  it.skip('should execute with two signers', async () => {
+    const nonce = await metaMultiSigWallet.nonce();
+    const to: string = addr1.address;
+    const value = ethers.utils.parseEther('0.1');
+    const callData = '0x00'; // This can be anything, we could send a message
+
+    const hash = await metaMultiSigWallet.getTransactionHash(nonce, to, value.toString(), callData);
+    console.log('hash: ', hash);
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const signature1: BytesLike = await waffle?.provider?.send('personal_sign', [hash, owner.address]);
+    const signature2: BytesLike = await waffle?.provider?.send('personal_sign', [hash, addr1.address]);
+    // console.log('signature1: ', signature1);
+    console.log('signature2: ', signature2);
+    console.log('addr1.address: ', addr1.address < owner.address);
+
+    await metaMultiSigWallet.executeTransaction(to, value.toString(), callData, [signature2, signature1]);
+
+    // const addr1Balance = await provider.getBalance(addr1.address);
+    // console.log('addr1Balance: ', addr1Balance);
+  });
+
+  it('should add new signer', async () => {
+    const newSigner = addr3.address;
+
+    const nonce = await metaMultiSigWallet.nonce();
+    const to = metaMultiSigWallet.address;
+    const value = 0;
+
+    const callData = metaMultiSigWallet.interface.encodeFunctionData('addSigner', [newSigner, 1]);
+
+    const hash = await metaMultiSigWallet.getTransactionHash(nonce, to, value, callData);
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const signature: BytesLike = await waffle?.provider?.send('personal_sign', [hash, owner.address]);
+
+    // Double checking if owner address is recovered properly, executeTransaction would fail anyways
+    expect(await metaMultiSigWallet.recover(hash, signature)).to.equal(owner.address);
+
+    await metaMultiSigWallet.executeTransaction(metaMultiSigWallet.address, value, callData, [signature]);
+
+    expect(await metaMultiSigWallet.isOwner(newSigner)).to.equal(true);
   });
 });

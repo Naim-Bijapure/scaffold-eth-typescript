@@ -65,7 +65,7 @@ describe('MetaMultiSigWallet Test', () => {
 
   describe('Testing MetaMultiSigWallet functionality', () => {
     it('Adding a new signer', async () => {
-      const newSigner = addr1.address;
+      const newSigner = addr2.address;
 
       const nonce = await metaMultiSigWallet.nonce();
       const to = metaMultiSigWallet.address;
@@ -83,7 +83,10 @@ describe('MetaMultiSigWallet Test', () => {
 
       await metaMultiSigWallet.executeTransaction(metaMultiSigWallet.address, value, callData, [signature]);
 
-      // expect(await metaMultiSigWallet.isOwner(newSigner)).to.equal(true);
+      const isOwner = await metaMultiSigWallet.isOwner(newSigner);
+      // console.log('isOwner: ', isOwner);
+
+      expect(await metaMultiSigWallet.isOwner(newSigner)).to.equal(true);
     });
 
     it('Update Signatures Required to 2 - locking all the funds in the wallet, becasuse there is only 1 signer', async () => {

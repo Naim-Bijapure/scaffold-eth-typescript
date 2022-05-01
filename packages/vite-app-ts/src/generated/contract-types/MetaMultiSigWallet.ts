@@ -22,19 +22,14 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
   functions: {
     "addSigner(address,uint256)": FunctionFragment;
     "chainId()": FunctionFragment;
-    "closeStream(address)": FunctionFragment;
     "executeTransaction(address,uint256,bytes,bytes[])": FunctionFragment;
     "getTransactionHash(uint256,address,uint256,bytes)": FunctionFragment;
     "isOwner(address)": FunctionFragment;
     "nonce()": FunctionFragment;
-    "openStream(address,uint256,uint256)": FunctionFragment;
     "owners(uint256)": FunctionFragment;
     "recover(bytes32,bytes)": FunctionFragment;
     "removeSigner(address,uint256)": FunctionFragment;
     "signaturesRequired()": FunctionFragment;
-    "streamBalance(address)": FunctionFragment;
-    "streamWithdraw(uint256,string)": FunctionFragment;
-    "streams(address)": FunctionFragment;
     "updateSignaturesRequired(uint256)": FunctionFragment;
   };
 
@@ -43,7 +38,6 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "chainId", values?: undefined): string;
-  encodeFunctionData(functionFragment: "closeStream", values: [string]): string;
   encodeFunctionData(
     functionFragment: "executeTransaction",
     values: [string, BigNumberish, BytesLike, BytesLike[]]
@@ -54,10 +48,6 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "isOwner", values: [string]): string;
   encodeFunctionData(functionFragment: "nonce", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "openStream",
-    values: [string, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "owners",
     values: [BigNumberish]
@@ -75,25 +65,12 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "streamBalance",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "streamWithdraw",
-    values: [BigNumberish, string]
-  ): string;
-  encodeFunctionData(functionFragment: "streams", values: [string]): string;
-  encodeFunctionData(
     functionFragment: "updateSignaturesRequired",
     values: [BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "addSigner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "chainId", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "closeStream",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "executeTransaction",
     data: BytesLike
@@ -104,7 +81,6 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "isOwner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonce", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "openStream", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owners", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "recover", data: BytesLike): Result;
   decodeFunctionResult(
@@ -116,39 +92,20 @@ export interface MetaMultiSigWalletInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "streamBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "streamWithdraw",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "streams", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "updateSignaturesRequired",
     data: BytesLike
   ): Result;
 
   events: {
-    "CloseStream(address)": EventFragment;
     "Deposit(address,uint256,uint256)": EventFragment;
     "ExecuteTransaction(address,address,uint256,bytes,uint256,bytes32,bytes)": EventFragment;
-    "OpenStream(address,uint256,uint256)": EventFragment;
     "Owner(address,bool)": EventFragment;
-    "Withdraw(address,uint256,string)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "CloseStream"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExecuteTransaction"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OpenStream"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Owner"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
-
-export type CloseStreamEvent = TypedEvent<[string], { to: string }>;
-
-export type CloseStreamEventFilter = TypedEventFilter<CloseStreamEvent>;
 
 export type DepositEvent = TypedEvent<
   [string, BigNumber, BigNumber],
@@ -173,26 +130,12 @@ export type ExecuteTransactionEvent = TypedEvent<
 export type ExecuteTransactionEventFilter =
   TypedEventFilter<ExecuteTransactionEvent>;
 
-export type OpenStreamEvent = TypedEvent<
-  [string, BigNumber, BigNumber],
-  { to: string; amount: BigNumber; frequency: BigNumber }
->;
-
-export type OpenStreamEventFilter = TypedEventFilter<OpenStreamEvent>;
-
 export type OwnerEvent = TypedEvent<
   [string, boolean],
   { owner: string; added: boolean }
 >;
 
 export type OwnerEventFilter = TypedEventFilter<OwnerEvent>;
-
-export type WithdrawEvent = TypedEvent<
-  [string, BigNumber, string],
-  { to: string; amount: BigNumber; reason: string }
->;
-
-export type WithdrawEventFilter = TypedEventFilter<WithdrawEvent>;
 
 export interface MetaMultiSigWallet extends BaseContract {
   contractName: "MetaMultiSigWallet";
@@ -230,11 +173,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    closeStream(
-      to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     executeTransaction(
       to: string,
       value: BigNumberish,
@@ -255,13 +193,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     nonce(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    openStream(
-      to: string,
-      amount: BigNumberish,
-      frequency: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     owners(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     recover(
@@ -278,25 +209,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     signaturesRequired(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    streamBalance(to: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    streamWithdraw(
-      amount: BigNumberish,
-      reason: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    streams(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        amount: BigNumber;
-        frequency: BigNumber;
-        last: BigNumber;
-      }
-    >;
-
     updateSignaturesRequired(
       newSignaturesRequired: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -310,11 +222,6 @@ export interface MetaMultiSigWallet extends BaseContract {
   ): Promise<ContractTransaction>;
 
   chainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-  closeStream(
-    to: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   executeTransaction(
     to: string,
@@ -336,13 +243,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
   nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
-  openStream(
-    to: string,
-    amount: BigNumberish,
-    frequency: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   owners(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   recover(
@@ -359,25 +259,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
   signaturesRequired(overrides?: CallOverrides): Promise<BigNumber>;
 
-  streamBalance(to: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  streamWithdraw(
-    amount: BigNumberish,
-    reason: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  streams(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      amount: BigNumber;
-      frequency: BigNumber;
-      last: BigNumber;
-    }
-  >;
-
   updateSignaturesRequired(
     newSignaturesRequired: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -391,8 +272,6 @@ export interface MetaMultiSigWallet extends BaseContract {
     ): Promise<void>;
 
     chainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    closeStream(to: string, overrides?: CallOverrides): Promise<void>;
 
     executeTransaction(
       to: string,
@@ -414,13 +293,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
-    openStream(
-      to: string,
-      amount: BigNumberish,
-      frequency: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     owners(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     recover(
@@ -437,25 +309,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     signaturesRequired(overrides?: CallOverrides): Promise<BigNumber>;
 
-    streamBalance(to: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    streamWithdraw(
-      amount: BigNumberish,
-      reason: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    streams(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        amount: BigNumber;
-        frequency: BigNumber;
-        last: BigNumber;
-      }
-    >;
-
     updateSignaturesRequired(
       newSignaturesRequired: BigNumberish,
       overrides?: CallOverrides
@@ -463,9 +316,6 @@ export interface MetaMultiSigWallet extends BaseContract {
   };
 
   filters: {
-    "CloseStream(address)"(to?: string | null): CloseStreamEventFilter;
-    CloseStream(to?: string | null): CloseStreamEventFilter;
-
     "Deposit(address,uint256,uint256)"(
       sender?: string | null,
       amount?: null,
@@ -496,33 +346,11 @@ export interface MetaMultiSigWallet extends BaseContract {
       result?: null
     ): ExecuteTransactionEventFilter;
 
-    "OpenStream(address,uint256,uint256)"(
-      to?: string | null,
-      amount?: null,
-      frequency?: null
-    ): OpenStreamEventFilter;
-    OpenStream(
-      to?: string | null,
-      amount?: null,
-      frequency?: null
-    ): OpenStreamEventFilter;
-
     "Owner(address,bool)"(
       owner?: string | null,
       added?: null
     ): OwnerEventFilter;
     Owner(owner?: string | null, added?: null): OwnerEventFilter;
-
-    "Withdraw(address,uint256,string)"(
-      to?: string | null,
-      amount?: null,
-      reason?: null
-    ): WithdrawEventFilter;
-    Withdraw(
-      to?: string | null,
-      amount?: null,
-      reason?: null
-    ): WithdrawEventFilter;
   };
 
   estimateGas: {
@@ -533,11 +361,6 @@ export interface MetaMultiSigWallet extends BaseContract {
     ): Promise<BigNumber>;
 
     chainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    closeStream(
-      to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     executeTransaction(
       to: string,
@@ -559,13 +382,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
-    openStream(
-      to: string,
-      amount: BigNumberish,
-      frequency: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     owners(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     recover(
@@ -582,16 +398,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     signaturesRequired(overrides?: CallOverrides): Promise<BigNumber>;
 
-    streamBalance(to: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    streamWithdraw(
-      amount: BigNumberish,
-      reason: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    streams(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     updateSignaturesRequired(
       newSignaturesRequired: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -606,11 +412,6 @@ export interface MetaMultiSigWallet extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     chainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    closeStream(
-      to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     executeTransaction(
       to: string,
@@ -635,13 +436,6 @@ export interface MetaMultiSigWallet extends BaseContract {
 
     nonce(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    openStream(
-      to: string,
-      amount: BigNumberish,
-      frequency: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     owners(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -660,22 +454,6 @@ export interface MetaMultiSigWallet extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     signaturesRequired(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    streamBalance(
-      to: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    streamWithdraw(
-      amount: BigNumberish,
-      reason: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    streams(
-      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

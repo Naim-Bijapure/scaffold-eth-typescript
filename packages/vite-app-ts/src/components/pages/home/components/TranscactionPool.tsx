@@ -58,12 +58,19 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
 
     const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
     const recoverAddress = await walletContract.recover(transcactionHash, sign);
+    console.log('recoverAddress: ', recoverAddress);
     const isOwner = await walletContract.isOwner(recoverAddress);
+    console.log('isOwner: ', isOwner);
     if (isOwner) {
       const value = currentTranscaction['value'];
       const callData = currentTranscaction['callData'];
-      const signitures = currentTranscaction['signatures'];
-      const execTx = walletContract.executeTransaction(recoverAddress, value, callData, [...signitures]);
+      const signitures: string[] = currentTranscaction['signatures']
+        .sort((dataA, dataB) => dataA['owner'] - dataB['owner'])
+        .map((data: { owner: any; sign: string }) => data?.sign);
+
+      const toAddress = currentTranscaction['to'];
+      console.log('signitures: ', signitures);
+      const execTx = walletContract.executeTransaction(toAddress, value, callData, [...signitures]);
       // const execRcpt = await execTx.wait();
       //
 
@@ -104,10 +111,12 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
     const transcactionHash = transcactions[selectedTranscactionIndex]['hash'];
 
     const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
+    console.log('sign: ', sign);
     const recoverAddress = await walletContract.recover(transcactionHash, sign);
+    console.log('recoverAddress: ', recoverAddress);
     const isOwner = await walletContract.isOwner(recoverAddress);
     if (isOwner) {
-      transcactions[selectedTranscactionIndex]['signatures'].push(sign);
+      transcactions[selectedTranscactionIndex]['signatures'].push({ owner: recoverAddress, sign });
       setTranscactions([...transcactions]);
 
       const res = await API.post(`/basket/${walletAddress}`, { transcactions: [...transcactions] });
@@ -130,6 +139,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
               expandIcon={({ isActive }): any => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
               className="w-full site-collapse-custom-collapse">
               {transcactions.map((data, index) => {
+                console.log('data: ', data);
                 //
                 const isExecutable = data.signatureRequired === data?.signatures.length;
                 const functionSignature: string =
@@ -138,6 +148,12 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
                     : walletFactory.interface.parseTransaction({
                         data: data.callData,
                       }).signature;
+
+                const isUserSigned = data.signatures.find((data: any) => data.owner === etherContext.account)
+                  ? true
+                  : false;
+
+                console.log('isSigned: ', isUserSigned);
 
                 return (
                   <Panel
@@ -163,15 +179,21 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
                         </div>
                         <div className="ml-auto">
                           <Tooltip
-                            title={isExecutable ? 'all signatures completed' : 'sign the proposal'}
-                            color={isExecutable ? 'green' : 'blue'}>
+                            title={
+                              isExecutable
+                                ? 'all signatures completed'
+                                : isUserSigned
+                                ? 'You already signed '
+                                : 'sign the proposal'
+                            }
+                            color={isExecutable ? 'green' : isUserSigned ? 'yellow' : 'blue'}>
                             <Button
                               type="link"
                               onClick={async (): Promise<any> => {
                                 await onSignTranscaction(data['proposalId']);
                               }}
-                              disabled={isExecutable}
-                              icon={<SignIcon className="text-xl" />}></Button>
+                              disabled={isExecutable || isUserSigned}
+                              icon={<SignIcon className="text-xl" style={{ color: 'green' }} />}></Button>
                           </Tooltip>
                         </div>
 
@@ -205,10 +227,10 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
                         <Descriptions.Item label="Signature required">{data.signatureRequired}</Descriptions.Item>
                         <Descriptions.Item label="Owners">
                           <p>
-                            {data.signers.map((address, index) => {
+                            {data.signers.map((sign: any, index) => {
                               return (
-                                <p key={address} className="n-addressAdjustement">
-                                  <Address address={transcactions[0]['contractAddress']} />
+                                <p key={sign} className="n-addressAdjustement">
+                                  <Address address={sign} />
                                 </p>
                               );
                             })}
@@ -216,10 +238,10 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
                         </Descriptions.Item>
                         <Descriptions.Item label="Signed owners">
                           <p>
-                            {data.signedOwners?.map((address, index) => {
+                            {data.signatures?.map(({ owner, sign }: any, index: number) => {
                               return (
-                                <p key={address} className="n-addressAdjustement">
-                                  <Address address={transcactions[0]['contractAddress']} />
+                                <p key={owner} className="n-addressAdjustement">
+                                  <Address address={owner} />
                                 </p>
                               );
                             })}

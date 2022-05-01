@@ -90,17 +90,20 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
 
     const nounce = await walletContract.nonce();
     const signatureRequired = await walletContract.signaturesRequired();
-    // console.log('nounce: ', nounce.toNumber());
-
-    const hash = await walletContract.getTransactionHash(
-      nounce.toNumber(),
-      ethersContext.account as string,
-      etherValue.toString(),
-      currentCallData
-    );
 
     const walletAddress = walletContract.address;
     const date = new Date();
+    // console.log('nounce: ', nounce.toNumber());
+
+    const currentToAddress = currentCallData === '0x' ? toAddress : walletAddress;
+
+    const hash = await walletContract.getTransactionHash(
+      nounce.toNumber(),
+      // ethersContext.account as string,
+      currentToAddress,
+      etherValue.toString(),
+      currentCallData
+    );
 
     const reqData = {
       proposalId: date.getMilliseconds(),
@@ -108,7 +111,7 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
       eventName: selectedAction,
       contractAddress: walletAddress,
       from: ethersContext.account,
-      to: toAddress,
+      to: currentToAddress,
       callData: currentCallData,
       value: etherValue.toString(),
       newSignatureCount,
