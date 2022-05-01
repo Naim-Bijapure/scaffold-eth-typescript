@@ -12,6 +12,8 @@ packages/hardhat-ts/
 ## Quick Start
 
 Running the app
+0. install vercel globally
+> yarn global add vercel
 
 1. install your dependencies
 
@@ -34,6 +36,7 @@ Running the app
    yarn deploy
    # start vite 
    yarn start 
+   yarn backend:dev (add vercel account and proceed)
    ```
    
 ## Guides

@@ -1,4 +1,4 @@
-import { Card, Collapse } from 'antd';
+import { Card, Collapse, Empty } from 'antd';
 import { Address, Balance } from 'eth-components/ant';
 import { IEthersContext } from 'eth-hooks/models';
 import React from 'react';
@@ -30,11 +30,6 @@ const YourWallet: React.FC<IYourMultiSig> = ({
 }) => {
   function callback(key) {}
 
-  const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
   return (
     <div>
       <div className="flex justify-center ">
@@ -53,13 +48,23 @@ const YourWallet: React.FC<IYourMultiSig> = ({
 
         <div className="w-[40%]">
           <Card title="Your Wallet">
-            <div>
-              <Balance address={walletAddress} price={price} />
-            </div>
-            <div>
-              <Address address={walletAddress} />
-            </div>
-            <div className="text-blue-400">{signatureCount} signatures required</div>
+            {walletAddress.length > 0 && (
+              <>
+                <div>
+                  <Balance address={walletAddress} price={price} />
+                </div>
+                <div>
+                  <Address address={walletAddress} />
+                </div>
+                <div className="text-blue-400">{signatureCount} signatures required</div>
+              </>
+            )}
+
+            {walletAddress.length === 0 && (
+              <>
+                <Empty description="No wallet found" />
+              </>
+            )}
           </Card>
 
           <Card title="Owners">

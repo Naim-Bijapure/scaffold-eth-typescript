@@ -55,13 +55,27 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
 
     const currentTranscaction = transcactions[selectedTranscactionIndex];
 
-    const transcactionHash = currentTranscaction['hash'];
+    // const transcactionHash = currentTranscaction['hash'];
 
-    const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
-    const recoverAddress = await walletContract.recover(transcactionHash, sign);
+    const nounce = await walletContract.nonce();
+    console.log('nounce: ', nounce.toNumber());
+    const updatedhash = await walletContract.getTransactionHash(
+      nounce.toNumber(),
+      // ethersContext.account as string,
+      transcactions[selectedTranscactionIndex]['to'],
+      transcactions[selectedTranscactionIndex]['value'],
+      transcactions[selectedTranscactionIndex]['callData']
+    );
+
+    // const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
+    // const recoverAddress = await walletContract.recover(transcactionHash, sign);
+
+    const sign = await etherContext.provider?.send('personal_sign', [updatedhash, etherContext.account]);
+    const recoverAddress = await walletContract.recover(updatedhash, sign);
     console.log('recoverAddress: ', recoverAddress);
+
     const isOwner = await walletContract.isOwner(recoverAddress);
-    console.log('isOwner: ', isOwner);
+
     if (isOwner) {
       const value = currentTranscaction['value'];
       const callData = currentTranscaction['callData'];
@@ -70,10 +84,8 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
         .map((data: { owner: any; sign: string }) => data?.sign);
 
       const toAddress = currentTranscaction['to'];
-      console.log('signitures: ', signitures);
+
       const execTx = walletContract.executeTransaction(toAddress, value, callData, [...signitures]);
-      // const execRcpt = await execTx.wait();
-      //
 
       notifyTx(execTx, async (data: any) => {
         transcactions[selectedTranscactionIndex]['isExecuted'] = true;
@@ -82,6 +94,39 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
         notification['success']({ message: 'Transcaction executed successfully' });
         setLoadTranscactionsToggle(!loadTranscactionsToggle);
       });
+    }
+  };
+
+  const onSignTranscaction = async (transcactionId: string): Promise<void> => {
+    console.log('transcactionId: ', transcactionId);
+    const selectedTranscactionIndex = transcactions.findIndex((data, index) => data['proposalId'] === transcactionId);
+
+    // const transcactionHash = transcactions[selectedTranscactionIndex]['hash'];
+
+    const nounce = await walletContract.nonce();
+    const updatedhash = await walletContract.getTransactionHash(
+      nounce.toNumber(),
+      // ethersContext.account as string,
+      transcactions[selectedTranscactionIndex]['to'],
+      transcactions[selectedTranscactionIndex]['value'],
+      transcactions[selectedTranscactionIndex]['callData']
+    );
+
+    // const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
+    // const recoverAddress = await walletContract.recover(transcactionHash, sign);
+
+    const sign = await etherContext.provider?.send('personal_sign', [updatedhash, etherContext.account]);
+    const recoverAddress = await walletContract.recover(updatedhash, sign);
+
+    const isOwner = await walletContract.isOwner(recoverAddress);
+    if (isOwner) {
+      transcactions[selectedTranscactionIndex]['signatures'].push({ owner: recoverAddress, sign });
+      setTranscactions([...transcactions]);
+
+      const res = await API.post(`/add`, { transcactions: [...transcactions] });
+
+      notification['success']({ message: 'Added signature successfully' });
+      setLoadTranscactionsToggle(!loadTranscactionsToggle);
     }
   };
 
@@ -106,27 +151,6 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
     </>
   );
 
-  const onSignTranscaction = async (transcactionId: string): Promise<void> => {
-    const selectedTranscactionIndex = transcactions.findIndex((data, index) => data['proposalId'] === transcactionId);
-
-    const transcactionHash = transcactions[selectedTranscactionIndex]['hash'];
-
-    const sign = await etherContext.provider?.send('personal_sign', [transcactionHash, etherContext.account]);
-    console.log('sign: ', sign);
-    const recoverAddress = await walletContract.recover(transcactionHash, sign);
-    console.log('recoverAddress: ', recoverAddress);
-    const isOwner = await walletContract.isOwner(recoverAddress);
-    if (isOwner) {
-      transcactions[selectedTranscactionIndex]['signatures'].push({ owner: recoverAddress, sign });
-      setTranscactions([...transcactions]);
-
-      const res = await API.post(`/add`, { transcactions: [...transcactions] });
-
-      notification['success']({ message: 'Added signature successfully' });
-      setLoadTranscactionsToggle(!loadTranscactionsToggle);
-    }
-  };
-
   return (
     <div>
       {/* pool collaps list */}
@@ -135,12 +159,12 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
         <div className={transcactions.length !== 0 ? '' : 'hidden'}>
           <Card title={isExecutedPool ? 'Executed transcaction pool' : 'Transcaction pool'}>
             <Collapse
+              key={transcactions.length}
               // bordered={false}
               defaultActiveKey={['1']}
               expandIcon={({ isActive }): any => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
               className="w-full site-collapse-custom-collapse">
               {transcactions.map((data, index) => {
-                console.log('data: ', data);
                 //
                 const isExecutable = data.signatureRequired === data?.signatures.length;
                 const functionSignature: string =
@@ -154,10 +178,9 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
                   ? true
                   : false;
 
-                console.log('isSigned: ', isUserSigned);
-
                 return (
                   <Panel
+                    key={data.proposalId}
                     header={
                       <div className="flex items-center justify-start  w-[70%] ">
                         <span className="mx-5">#{index + 1}</span>

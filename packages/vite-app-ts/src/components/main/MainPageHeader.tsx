@@ -33,7 +33,8 @@ export const MainPageHeader: FC<IMainPageHeaderProps> = (props) => {
   const left = (
     <div className="self-end">
       <div>
-        <PageHeader title="MultiSig Wallet 👛" subTitle={<span></span>} style={{ cursor: 'pointer' }} />
+        {/* <PageHeader title="MultiSig Wallet 👛" subTitle={<span></span>} style={{ cursor: 'pointer' }} /> */}
+        <PageHeader title="MAAS-X 👛" subTitle={<span></span>} style={{ cursor: 'pointer' }} />
       </div>
       {props.children}
     </div>

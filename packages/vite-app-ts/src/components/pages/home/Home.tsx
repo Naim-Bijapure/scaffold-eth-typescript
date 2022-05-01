@@ -1,4 +1,5 @@
 import { WalletTwoTone as CreateWalletIcon, SwapOutlined as ProposeIcon } from '@ant-design/icons';
+import { parseEther } from '@ethersproject/units';
 import { Tabs, Select, Button, notification } from 'antd';
 import { transactor } from 'eth-components/functions';
 import { IEthComponentsSettings } from 'eth-components/models';
@@ -15,6 +16,7 @@ import YourWallet from './components/YourWallet';
 import { IScaffoldAppProviders } from '~~/components/main/hooks/useScaffoldAppProviders';
 import { useAppContracts } from '~~/config/contractContext';
 import { MetaMultiSigWallet, OwnerEvent } from '~~/generated/contract-types/MetaMultiSigWallet';
+import { asyncDelay } from '~~/models/constants/constants';
 
 const BLOCKNATIVE_DAPPID = import.meta.env.VITE_KEY_BLOCKNATIVE_DAPPID;
 // create eth components context for options and API keys
@@ -53,11 +55,8 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
   // const [owners] = useEventListener<OwnerEvent>(multiSigFactory, multiSigFactory?.filters.Owners(), 0);
   const [owners] = useEventListener<OwnerEvent>(multiSigFactory, 'Owners', 0);
   // const [debugLog] = useEventListener<DebugLogEvent>(multiSigFactory, 'DebugLog', 0);
-  // console.log('Home=> debugLog: ', debugLog);
-  console.log('owners: ', owners);
 
-  // owners = owners.length > 0 ? owners[owners.length] : [];
-  // console.log('owners: signature required: ', owners[1].args[2].toString());
+  console.log('owners: ', owners);
 
   const notifyTx: any = transactor(ethComponentsSettings, ethersContext.signer);
 
@@ -68,11 +67,14 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
     setCurrentSelectedWallet(selectedWalletAddr);
   }
 
-  const onWalletCreate = (addressList: Array<string>, signatureCount: number): void => {
+  const onWalletCreate = (addressList: Array<string>, signatureCount: number, fundAmount: string = '0'): void => {
+    const value = parseEther(parseFloat(fundAmount).toFixed(12));
+
     const createMultiSigTx = multiSigFactory?.create(
       ethersContext.chainId as BigNumberish,
       addressList,
-      signatureCount
+      signatureCount,
+      { value: value }
     );
 
     notifyTx(createMultiSigTx, (data: any) => {
@@ -81,9 +83,11 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
     });
   };
 
-  const onProposalCreaet = (): void => {
-    notification['success']({ message: 'propsale created successfully' });
+  const onProposalCreate = async (): Promise<void> => {
+    notification['success']({ message: 'propsal created successfully' });
     setOpenModal({ ...openModal, proposeModal: false });
+    setCurrentTab('0');
+    await asyncDelay(100);
     setCurrentTab('2');
   };
 
@@ -125,9 +129,6 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
     setWalletOwners(walletOwners);
     setCurrentTab('1');
   }, [currentSelectedWallet, owners]);
-
-  // const sleep = async (duration: number): Promise<boolean> =>
-  //   new Promise((resolve, reject) => setTimeout(() => resolve(true), duration));
 
   // created a contract instance from current selected contract wallet
   const loadContract = async (): Promise<void> => {
@@ -171,16 +172,16 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
           <Button
             onClick={async (): Promise<void> => {
               const signaturesRequired = await currentContractWallet?.signaturesRequired();
-              console.log('signaturesRequired: ', signaturesRequired?.toNumber());
+              
 
               const isOwner = await currentContractWallet?.isOwner('0xbA4C9A16f4030c2455316Bf2F169bB5b185cCAa4');
-              console.log('isOwner: ', isOwner);
+              
 
               const nounce = await currentContractWallet?.nonce();
-              console.log('nounce: ', nounce?.toNumber());
+              
 
               const owners = await currentContractWallet?.owners(0);
-              console.log('owners: ', owners);
+              
             }}
             className="flex items-center h-8"
             // icon={<ProposeIcon style={{ color: '#40A9FF' }} className="text-2xl" />}
@@ -196,7 +197,8 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
             <Button
               onClick={(): void => onOpenModal('proposeModal')}
               className="flex items-center h-8"
-              icon={<ProposeIcon style={{ color: '#40A9FF' }} className="text-2xl" />}>
+              icon={<ProposeIcon style={{ color: '#40A9FF' }} className="text-2xl" />}
+              disabled={currentSelectedWallet.length === 0}>
               Add Proposal
             </Button>
           </div>
@@ -258,12 +260,13 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
         onClose={(): void => onCloseModal('walletModal')}
         onSubmit={onWalletCreate}
         provider={ethersContext.provider}
+        price={price}
       />
 
       <ProposeModal
         openModal={openModal['proposeModal']}
         onClose={(): void => onCloseModal('proposeModal')}
-        onSubmit={onProposalCreaet}
+        onSubmit={onProposalCreate}
         provider={ethersContext.provider}
         walletContract={currentContractWallet as MetaMultiSigWallet}
         owners={walletOwners}

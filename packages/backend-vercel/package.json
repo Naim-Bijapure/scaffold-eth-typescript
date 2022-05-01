@@ -1,0 +1,15 @@
+{
+  "name": "@scaffold-eth/backend",
+  "packageManager": "yarn@3.2.0",
+  "scripts": {
+    "start:dev": "vercel dev --listen 4000",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "ioredis": "^5.0.4",
+    "next": "^12.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.30"
+  }
+}

@@ -1,18 +1,20 @@
-import { DeleteFilled, PlusCircleFilled } from '@ant-design/icons';
+import { DeleteFilled, PlusCircleTwoTone as AddIcon } from '@ant-design/icons';
 import { Modal, InputNumber, Button } from 'antd';
-import { Address, AddressInput } from 'eth-components/ant';
+import { Address, AddressInput, EtherInput } from 'eth-components/ant';
 import React, { useEffect, useState } from 'react';
 
 interface IWalletCreateModal {
   openModal: boolean;
-  onSubmit: (addressList: Array<string>, signatureCount: number) => void;
+  onSubmit: (addressList: Array<string>, signatureCount: number, fundAmount: string) => void;
   onClose: (arg: any) => void;
   provider: any;
+  price: number;
 }
-const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, onClose, provider }) => {
+const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, onClose, provider, price }) => {
   const [currentAddress, setAddress] = useState<string>('');
   const [addressList, setAddressList] = useState<Array<string>>([]);
   const [signatureCount, setSignatureCount] = useState<number | null>(null);
+  const [fundAmount, setFundAmount] = useState<string>('0');
 
   const onAddAddress = (): any => {
     if (currentAddress.length >= 42) {
@@ -48,14 +50,14 @@ const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, 
           <Button
             key={'submit'}
             type="primary"
-            onClick={(): void => onSubmit(addressList, signatureCount as number)}
+            onClick={(): void => onSubmit(addressList, signatureCount as number, fundAmount)}
             disabled={addressList.length === 0 || signatureCount === null}>
             Submit
           </Button>,
         ]}>
         {/* action header */}
-        <div className="flex items-center justify-between w-full">
-          <div className="w-full m-1">
+        <div className="flex items-center justify-between w-full ">
+          <div className="w-full m-3">
             <AddressInput
               placeholder="Enter unique owner address"
               address={currentAddress}
@@ -64,17 +66,17 @@ const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, 
             />
           </div>
           <div className="m-1">
-            <PlusCircleFilled className="text-xl" onClick={onAddAddress} style={{ color: 'Green' }}>
+            <AddIcon className="text-xl" onClick={onAddAddress}>
               Add{' '}
-            </PlusCircleFilled>
+            </AddIcon>
           </div>
         </div>
 
         {/* display address list */}
-        <div className="border ">
+        <div className="m-2">
           {addressList.map((address: string) => {
             return (
-              <div key={address} className="flex items-center justify-center">
+              <div key={address} className="flex items--center justify-center">
                 <Address address={address} />
                 <DeleteFilled
                   className="text-xl"
@@ -86,8 +88,12 @@ const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, 
             );
           })}
         </div>
-        <div className="w-full m-1">
+        <div className="w-full  m-3">
           <InputNumber style={{ width: '200px' }} placeholder="signature count" min={1} onChange={setSignatureCount} />
+        </div>
+
+        <div className="w-full m-3">
+          <EtherInput value={fundAmount} price={price} placeholder="fund wallet (optional)" onChange={setFundAmount} />
         </div>
       </Modal>
     </div>
