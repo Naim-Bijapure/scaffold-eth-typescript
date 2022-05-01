@@ -37,17 +37,7 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
   const [currentCallData, setCurrentCallData] = useState<any>(null);
   const [value, setValue] = useState<string>('');
   const [newSignatureCount, setNewSignatureCount] = useState<number>(0);
-
-  // const callDataMap = {
-  //   addSigner: walletFactory?.interface.encodeFunctionData('addSigner', [
-  //     // '0xbA4C9A16f4030c2455316Bf2F169bB5b185cCAa4',
-  //     receipentAddress,
-  //     2,
-  //   ]),
-  //   removeSigner: walletFactory?.interface.encodeFunctionData('removeSigner', [receipentAddress, 2]),
-  //   transferFunds: '0x',
-  //   customCall: '0x',
-  // };
+  const [toggleLoading, setToggleLoading] = useState<boolean>(false);
 
   const onActionSelect = (value: string): void => {
     setSelectedAction(value);
@@ -57,35 +47,8 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
     setNewSignatureCount(0);
   };
 
-  // const onTest = async (): Promise<void> => {
-  //   //     const value = parseEther('10');
-  //   const value = parseEther('0.15').toString();
-
-  //   // @ts-ignor
-  //   const callData = walletFactory?.interface.encodeFunctionData('addSigner', [
-  //     '0xbA4C9A16f4030c2455316Bf2F169bB5b185cCAa4',
-  //     2,
-  //   ]);
-  //   const hash = await walletContract.getTransactionHash(0, ethersContext.account as string, value, callData);
-
-  //   const sign = await ethersContext.provider?.send('personal_sign', [hash, ethersContext.account]);
-  //   const recoverAddress = await walletContract.recover(hash, sign);
-  //   console.log('recoverAddress: ', recoverAddress);
-
-  //   const execTx = await walletContract.executeTransaction(recoverAddress, value, callData, [sign]);
-  //   const execRcpt = await execTx.wait();
-  //   console.log('execRcpt: ', execRcpt);
-
-  //   console.log('hash: ', hash);
-  // };
-
   const onProposalCreate = async (): Promise<void> => {
-    // console.log('toAddress: ', toAddress);
-    // console.log('selectedAction: ', selectedAction);
-    // console.log('currentCallData: ', currentCallData);
-    // console.log('value: ', value);
-    // console.log('newSignatureCount: ', newSignatureCount);
-
+    setToggleLoading(true);
     const etherValue = value ? parseEther(value) : 0;
 
     const nounce = await walletContract.nonce();
@@ -93,7 +56,6 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
 
     const walletAddress = walletContract.address;
     const date = new Date();
-    // console.log('nounce: ', nounce.toNumber());
 
     const currentToAddress = currentCallData === '0x' ? toAddress : walletAddress;
 
@@ -122,32 +84,16 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
       isExecuted: false,
     };
 
-    let oldTranscactions;
-    try {
-      let oldData = await (await API.get(`/basket/${walletAddress}`)).data;
-      oldData = oldData ? oldData : [];
-      oldTranscactions = oldData['transcactions'];
-    } catch (error) {
-      oldTranscactions = [];
-    }
+    const oldData = await (await API.get(`/${walletAddress}`)).data;
+    const oldTranscactions = oldData['transcactions'];
 
-    console.log('oldTranscactions: ', oldTranscactions);
+    const reqTx = { transcactions: [...oldTranscactions, reqData] };
 
-    const res = await API.post(`/basket/${walletAddress}`, { transcactions: [...oldTranscactions, reqData] });
+    const res = await API.post(`/add`, reqTx);
     console.log('res: ', res.data);
-
-    // const res = await API.post(`/basket/${walletAddress}`, { transcactions: [] });
-
-    // const sign = await ethersContext.provider?.send('personal_sign', [hash, ethersContext.account]);
-    // const recoverAddress = await walletContract.recover(hash, sign);
-    // console.log('recoverAddress: ', recoverAddress);
-
-    // const execTx = await walletContract.executeTransaction(recoverAddress, etherValue.toString(), currentCallData, [
-    //   sign,
-    // ]);
-    // const execRcpt = await execTx.wait();
-    // console.log('execRcpt: ', execRcpt);
     onSubmit();
+
+    setToggleLoading(false);
   };
 
   useEffect(() => {
@@ -179,7 +125,8 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
           key={selectedAction}
           type="primary"
           onClick={async (): Promise<void> => onProposalCreate()}
-          disabled={toAddress.length === 0}>
+          disabled={toAddress.length === 0}
+          loading={toggleLoading}>
           Submit
         </Button>,
       ]}>

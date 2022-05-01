@@ -33,10 +33,11 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
 
   const loadTranscactions = async (): Promise<void> => {
     try {
-      const transcactions = await (await API.get(`/basket/${walletAddress}`)).data['transcactions'];
+      const transcactions = await (await API.get(`/${walletAddress}`)).data['transcactions'];
+      console.log('transcactions: ', transcactions);
 
       // const parsedData = walletFactory.interface.parseTransaction({ data: transcactions[0]['hash'] });
-      setTranscactions(transcactions.filter((data) => data['isExecuted'] === isExecutedPool));
+      setTranscactions(transcactions.filter((data: any) => data['isExecuted'] === isExecutedPool));
     } catch (error) {
       // setTranscactions([]);
     }
@@ -76,7 +77,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
 
       notifyTx(execTx, async (data: any) => {
         transcactions[selectedTranscactionIndex]['isExecuted'] = true;
-        const res = await API.post(`/basket/${walletAddress}`, { transcactions: [...transcactions] });
+        const res = await API.post(`/add`, { transcactions: [...transcactions] });
 
         notification['success']({ message: 'Transcaction executed successfully' });
         setLoadTranscactionsToggle(!loadTranscactionsToggle);
@@ -119,7 +120,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
       transcactions[selectedTranscactionIndex]['signatures'].push({ owner: recoverAddress, sign });
       setTranscactions([...transcactions]);
 
-      const res = await API.post(`/basket/${walletAddress}`, { transcactions: [...transcactions] });
+      const res = await API.post(`/add`, { transcactions: [...transcactions] });
 
       notification['success']({ message: 'Added signature successfully' });
       setLoadTranscactionsToggle(!loadTranscactionsToggle);

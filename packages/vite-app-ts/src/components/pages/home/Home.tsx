@@ -167,7 +167,7 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
           </Select>
         </div>
 
-        <div>
+        {/* <div>
           <Button
             onClick={async (): Promise<void> => {
               const signaturesRequired = await currentContractWallet?.signaturesRequired();
@@ -187,7 +187,7 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
           >
             Debug
           </Button>
-        </div>
+        </div> */}
 
         {/* create add proposal */}
 

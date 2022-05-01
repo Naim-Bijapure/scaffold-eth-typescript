@@ -1,0 +1,25 @@
+[
+    {
+        "proposalId": 517,
+        "nounce": 2,
+        "eventName": "transferFunds",
+        "contractAddress": "0xe73bc5BD4763A3307AB5F8F126634b7E12E3dA9b",
+        "from": "0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1",
+        "to": "0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1",
+        "callData": "0x",
+        "value": "0",
+        "newSignatureCount": 0,
+        "hash": "0x47cf91d7112ac79da29d99a691a00315b36e90df4eaec745ece080ba2fc17489",
+        "signatureRequired": 1,
+        "signatures": [
+            {
+                "owner": "0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1",
+                "sign": "0x8605751e331afe0f035764d987c511288c812f9364eecd7a6180784c8fcf517e63d0943615067d424341416da0c3363589ab71f1ab505f481719a1a6f5d5eb281b"
+            }
+        ],
+        "signers": [
+            "0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1"
+        ],
+        "isExecuted": true
+    }
+]

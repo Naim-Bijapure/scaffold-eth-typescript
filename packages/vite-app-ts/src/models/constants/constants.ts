@@ -787,4 +787,5 @@ export const BUILDERS = [
   },
 ];
 
-export const BASE_URL = 'https://getpantry.cloud/apiv1/pantry/54f5208f-5312-499a-847e-915b6f054074';
+// export const BASE_URL = 'https://getpantry.cloud/apiv1/pantry/54f5208f-5312-499a-847e-915b6f054074';
+export const BASE_URL = 'http://localhost:4000/api';

@@ -1,0 +1,10 @@
+{
+  "name": "backend",
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "next": "^12.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.30"
+  }
+}
