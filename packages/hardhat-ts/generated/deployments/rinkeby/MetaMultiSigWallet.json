@@ -1,0 +1,486 @@
+{
+  "address": "0xd7c63115ce75eb6b5c9a1d4f8df9ffb4831214e0",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_chainId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_owners",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_signaturesRequired",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address payable",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "nonce",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "hash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "result",
+          "type": "bytes"
+        }
+      ],
+      "name": "ExecuteTransaction",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "added",
+          "type": "bool"
+        }
+      ],
+      "name": "Owner",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newSigner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newSignaturesRequired",
+          "type": "uint256"
+        }
+      ],
+      "name": "addSigner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "chainId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "signatures",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "executeTransaction",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_nonce",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "getTransactionHash",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "isOwner",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nonce",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "owners",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_hash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_signature",
+          "type": "bytes"
+        }
+      ],
+      "name": "recover",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "oldSigner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newSignaturesRequired",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeSigner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "signaturesRequired",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newSignaturesRequired",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateSignaturesRequired",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0x4719bfc053438dbbce36e7cffcac7832e8ad90cc83a8d1775aa4d0b8696d15d2",
+  "receipt": {
+    "to": null,
+    "from": "0xed85883e9e6b7a4449d888804903be6b8127106a",
+    "contractAddress": "0xd7c63115ce75eb6b5c9a1d4f8df9ffb4831214e0",
+    "transactionIndex": "0xe",
+    "gasUsed": "0x14cd23",
+    "logsBloom": "0x00000000000000000000000000000000000000000000200000000000000000200000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000020000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe5aad61b08087e103f5ac3d85a5ce33c22b6b683042d0f73ad7bb449d93eb98f",
+    "transactionHash": "0x46fe15beda618fef0e8696ac21bb6f8a1df51c537b7b85b560d85f35846c0ab0",
+    "logs": [
+      {
+        "address": "0xd7c63115ce75eb6b5c9a1d4f8df9ffb4831214e0",
+        "blockHash": "0xe5aad61b08087e103f5ac3d85a5ce33c22b6b683042d0f73ad7bb449d93eb98f",
+        "blockNumber": "0xa1d746",
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "logIndex": "0x18",
+        "removed": false,
+        "topics": [
+          "0xfe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e",
+          "0x000000000000000000000000813f45bd0b48a334a3cc06bcef1c44aad907b8c1"
+        ],
+        "transactionHash": "0x46fe15beda618fef0e8696ac21bb6f8a1df51c537b7b85b560d85f35846c0ab0",
+        "transactionIndex": "0xe"
+      }
+    ],
+    "blockNumber": "0xa1d746",
+    "cumulativeGasUsed": "0x3b9ca6",
+    "status": "0x1"
+  },
+  "args": [
+    31337,
+    [
+      "0x813f45BD0B48a334A3cc06bCEf1c44AAd907b8c1"
+    ],
+    1,
+    "0x426F7B4654635c1F8082CbD7C5f6ee15D1c782FC"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "4bdce8efd6fa8fb68ee5ab260b4dcf0c",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.6+commit.11564f7e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_chainId\",\"type\":\"uint256\"},{\"internalType\":\"address[]\",\"name\":\"_owners\",\"type\":\"address[]\"},{\"internalType\":\"uint256\",\"name\":\"_signaturesRequired\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_factory\",\"type\":\"address\"}],\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"name\":\"Deposit\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address payable\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"nonce\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"result\",\"type\":\"bytes\"}],\"name\":\"ExecuteTransaction\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"added\",\"type\":\"bool\"}],\"name\":\"Owner\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newSigner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"newSignaturesRequired\",\"type\":\"uint256\"}],\"name\":\"addSigner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"chainId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"},{\"internalType\":\"bytes[]\",\"name\":\"signatures\",\"type\":\"bytes[]\"}],\"name\":\"executeTransaction\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_nonce\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"getTransactionHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nonce\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"owners\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"_signature\",\"type\":\"bytes\"}],\"name\":\"recover\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oldSigner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"newSignaturesRequired\",\"type\":\"uint256\"}],\"name\":\"removeSigner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"signaturesRequired\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newSignaturesRequired\",\"type\":\"uint256\"}],\"name\":\"updateSignaturesRequired\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/MetaMultiSigWallet.sol\":\"MetaMultiSigWallet\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/Strings.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.1 (utils/Strings.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev String operations.\\n */\\nlibrary Strings {\\n    bytes16 private constant _HEX_SYMBOLS = \\\"0123456789abcdef\\\";\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` decimal representation.\\n     */\\n    function toString(uint256 value) internal pure returns (string memory) {\\n        // Inspired by OraclizeAPI's implementation - MIT licence\\n        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol\\n\\n        if (value == 0) {\\n            return \\\"0\\\";\\n        }\\n        uint256 temp = value;\\n        uint256 digits;\\n        while (temp != 0) {\\n            digits++;\\n            temp /= 10;\\n        }\\n        bytes memory buffer = new bytes(digits);\\n        while (value != 0) {\\n            digits -= 1;\\n            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));\\n            value /= 10;\\n        }\\n        return string(buffer);\\n    }\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.\\n     */\\n    function toHexString(uint256 value) internal pure returns (string memory) {\\n        if (value == 0) {\\n            return \\\"0x00\\\";\\n        }\\n        uint256 temp = value;\\n        uint256 length = 0;\\n        while (temp != 0) {\\n            length++;\\n            temp >>= 8;\\n        }\\n        return toHexString(value, length);\\n    }\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.\\n     */\\n    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {\\n        bytes memory buffer = new bytes(2 * length + 2);\\n        buffer[0] = \\\"0\\\";\\n        buffer[1] = \\\"x\\\";\\n        for (uint256 i = 2 * length + 1; i > 1; --i) {\\n            buffer[i] = _HEX_SYMBOLS[value & 0xf];\\n            value >>= 4;\\n        }\\n        require(value == 0, \\\"Strings: hex length insufficient\\\");\\n        return string(buffer);\\n    }\\n}\\n\",\"keccak256\":\"0x32c202bd28995dd20c4347b7c6467a6d3241c74c8ad3edcbb610cd9205916c45\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/cryptography/ECDSA.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.5.0) (utils/cryptography/ECDSA.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../Strings.sol\\\";\\n\\n/**\\n * @dev Elliptic Curve Digital Signature Algorithm (ECDSA) operations.\\n *\\n * These functions can be used to verify that a message was signed by the holder\\n * of the private keys of a given address.\\n */\\nlibrary ECDSA {\\n    enum RecoverError {\\n        NoError,\\n        InvalidSignature,\\n        InvalidSignatureLength,\\n        InvalidSignatureS,\\n        InvalidSignatureV\\n    }\\n\\n    function _throwError(RecoverError error) private pure {\\n        if (error == RecoverError.NoError) {\\n            return; // no error: do nothing\\n        } else if (error == RecoverError.InvalidSignature) {\\n            revert(\\\"ECDSA: invalid signature\\\");\\n        } else if (error == RecoverError.InvalidSignatureLength) {\\n            revert(\\\"ECDSA: invalid signature length\\\");\\n        } else if (error == RecoverError.InvalidSignatureS) {\\n            revert(\\\"ECDSA: invalid signature 's' value\\\");\\n        } else if (error == RecoverError.InvalidSignatureV) {\\n            revert(\\\"ECDSA: invalid signature 'v' value\\\");\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the address that signed a hashed message (`hash`) with\\n     * `signature` or error string. This address can then be used for verification purposes.\\n     *\\n     * The `ecrecover` EVM opcode allows for malleable (non-unique) signatures:\\n     * this function rejects them by requiring the `s` value to be in the lower\\n     * half order, and the `v` value to be either 27 or 28.\\n     *\\n     * IMPORTANT: `hash` _must_ be the result of a hash operation for the\\n     * verification to be secure: it is possible to craft signatures that\\n     * recover to arbitrary addresses for non-hashed data. A safe way to ensure\\n     * this is by receiving a hash of the original message (which may otherwise\\n     * be too long), and then calling {toEthSignedMessageHash} on it.\\n     *\\n     * Documentation for signature generation:\\n     * - with https://web3js.readthedocs.io/en/v1.3.4/web3-eth-accounts.html#sign[Web3.js]\\n     * - with https://docs.ethers.io/v5/api/signer/#Signer-signMessage[ethers]\\n     *\\n     * _Available since v4.3._\\n     */\\n    function tryRecover(bytes32 hash, bytes memory signature) internal pure returns (address, RecoverError) {\\n        // Check the signature length\\n        // - case 65: r,s,v signature (standard)\\n        // - case 64: r,vs signature (cf https://eips.ethereum.org/EIPS/eip-2098) _Available since v4.1._\\n        if (signature.length == 65) {\\n            bytes32 r;\\n            bytes32 s;\\n            uint8 v;\\n            // ecrecover takes the signature parameters, and the only way to get them\\n            // currently is to use assembly.\\n            assembly {\\n                r := mload(add(signature, 0x20))\\n                s := mload(add(signature, 0x40))\\n                v := byte(0, mload(add(signature, 0x60)))\\n            }\\n            return tryRecover(hash, v, r, s);\\n        } else if (signature.length == 64) {\\n            bytes32 r;\\n            bytes32 vs;\\n            // ecrecover takes the signature parameters, and the only way to get them\\n            // currently is to use assembly.\\n            assembly {\\n                r := mload(add(signature, 0x20))\\n                vs := mload(add(signature, 0x40))\\n            }\\n            return tryRecover(hash, r, vs);\\n        } else {\\n            return (address(0), RecoverError.InvalidSignatureLength);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the address that signed a hashed message (`hash`) with\\n     * `signature`. This address can then be used for verification purposes.\\n     *\\n     * The `ecrecover` EVM opcode allows for malleable (non-unique) signatures:\\n     * this function rejects them by requiring the `s` value to be in the lower\\n     * half order, and the `v` value to be either 27 or 28.\\n     *\\n     * IMPORTANT: `hash` _must_ be the result of a hash operation for the\\n     * verification to be secure: it is possible to craft signatures that\\n     * recover to arbitrary addresses for non-hashed data. A safe way to ensure\\n     * this is by receiving a hash of the original message (which may otherwise\\n     * be too long), and then calling {toEthSignedMessageHash} on it.\\n     */\\n    function recover(bytes32 hash, bytes memory signature) internal pure returns (address) {\\n        (address recovered, RecoverError error) = tryRecover(hash, signature);\\n        _throwError(error);\\n        return recovered;\\n    }\\n\\n    /**\\n     * @dev Overload of {ECDSA-tryRecover} that receives the `r` and `vs` short-signature fields separately.\\n     *\\n     * See https://eips.ethereum.org/EIPS/eip-2098[EIP-2098 short signatures]\\n     *\\n     * _Available since v4.3._\\n     */\\n    function tryRecover(\\n        bytes32 hash,\\n        bytes32 r,\\n        bytes32 vs\\n    ) internal pure returns (address, RecoverError) {\\n        bytes32 s = vs & bytes32(0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);\\n        uint8 v = uint8((uint256(vs) >> 255) + 27);\\n        return tryRecover(hash, v, r, s);\\n    }\\n\\n    /**\\n     * @dev Overload of {ECDSA-recover} that receives the `r and `vs` short-signature fields separately.\\n     *\\n     * _Available since v4.2._\\n     */\\n    function recover(\\n        bytes32 hash,\\n        bytes32 r,\\n        bytes32 vs\\n    ) internal pure returns (address) {\\n        (address recovered, RecoverError error) = tryRecover(hash, r, vs);\\n        _throwError(error);\\n        return recovered;\\n    }\\n\\n    /**\\n     * @dev Overload of {ECDSA-tryRecover} that receives the `v`,\\n     * `r` and `s` signature fields separately.\\n     *\\n     * _Available since v4.3._\\n     */\\n    function tryRecover(\\n        bytes32 hash,\\n        uint8 v,\\n        bytes32 r,\\n        bytes32 s\\n    ) internal pure returns (address, RecoverError) {\\n        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature\\n        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines\\n        // the valid range for s in (301): 0 < s < secp256k1n \\u00f7 2 + 1, and for v in (302): v \\u2208 {27, 28}. Most\\n        // signatures from current libraries generate a unique signature with an s-value in the lower half order.\\n        //\\n        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value\\n        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or\\n        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept\\n        // these malleable signatures as well.\\n        if (uint256(s) > 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {\\n            return (address(0), RecoverError.InvalidSignatureS);\\n        }\\n        if (v != 27 && v != 28) {\\n            return (address(0), RecoverError.InvalidSignatureV);\\n        }\\n\\n        // If the signature is valid (and not malleable), return the signer address\\n        address signer = ecrecover(hash, v, r, s);\\n        if (signer == address(0)) {\\n            return (address(0), RecoverError.InvalidSignature);\\n        }\\n\\n        return (signer, RecoverError.NoError);\\n    }\\n\\n    /**\\n     * @dev Overload of {ECDSA-recover} that receives the `v`,\\n     * `r` and `s` signature fields separately.\\n     */\\n    function recover(\\n        bytes32 hash,\\n        uint8 v,\\n        bytes32 r,\\n        bytes32 s\\n    ) internal pure returns (address) {\\n        (address recovered, RecoverError error) = tryRecover(hash, v, r, s);\\n        _throwError(error);\\n        return recovered;\\n    }\\n\\n    /**\\n     * @dev Returns an Ethereum Signed Message, created from a `hash`. This\\n     * produces hash corresponding to the one signed with the\\n     * https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]\\n     * JSON-RPC method as part of EIP-191.\\n     *\\n     * See {recover}.\\n     */\\n    function toEthSignedMessageHash(bytes32 hash) internal pure returns (bytes32) {\\n        // 32 is the length in bytes of hash,\\n        // enforced by the type signature above\\n        return keccak256(abi.encodePacked(\\\"\\\\x19Ethereum Signed Message:\\\\n32\\\", hash));\\n    }\\n\\n    /**\\n     * @dev Returns an Ethereum Signed Message, created from `s`. This\\n     * produces hash corresponding to the one signed with the\\n     * https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]\\n     * JSON-RPC method as part of EIP-191.\\n     *\\n     * See {recover}.\\n     */\\n    function toEthSignedMessageHash(bytes memory s) internal pure returns (bytes32) {\\n        return keccak256(abi.encodePacked(\\\"\\\\x19Ethereum Signed Message:\\\\n\\\", Strings.toString(s.length), s));\\n    }\\n\\n    /**\\n     * @dev Returns an Ethereum Signed Typed Data, created from a\\n     * `domainSeparator` and a `structHash`. This produces hash corresponding\\n     * to the one signed with the\\n     * https://eips.ethereum.org/EIPS/eip-712[`eth_signTypedData`]\\n     * JSON-RPC method as part of EIP-712.\\n     *\\n     * See {recover}.\\n     */\\n    function toTypedDataHash(bytes32 domainSeparator, bytes32 structHash) internal pure returns (bytes32) {\\n        return keccak256(abi.encodePacked(\\\"\\\\x19\\\\x01\\\", domainSeparator, structHash));\\n    }\\n}\\n\",\"keccak256\":\"0x3c07f43e60e099b3b157243b3152722e73b80eeb7985c2cd73712828d7f7da29\",\"license\":\"MIT\"},\"contracts/MetaMultiSigWallet.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\npragma experimental ABIEncoderV2;\\nimport \\\"@openzeppelin/contracts/utils/cryptography/ECDSA.sol\\\";\\nimport \\\"./MultiSigFactory.sol\\\";\\n\\ncontract MetaMultiSigWallet {\\n\\n    using ECDSA for bytes32;\\n    MultiSigFactory private multiSigFactory;\\n\\n    event Deposit(address indexed sender, uint256 amount, uint256 balance);\\n    event ExecuteTransaction(\\n        address indexed owner,\\n        address payable to,\\n        uint256 value,\\n        bytes data,\\n        uint256 nonce,\\n        bytes32 hash,\\n        bytes result\\n    );\\n    event Owner(address indexed owner, bool added);\\n\\n    mapping(address => bool) public isOwner;\\n\\n    address[] public owners;\\n\\n    uint256 public signaturesRequired;\\n    uint256 public nonce;\\n    uint256 public chainId;\\n\\n    modifier onlyOwner() {\\n        require(isOwner[msg.sender], \\\"Not owner\\\");\\n        _;\\n    }\\n\\n    modifier onlySelf() {\\n        require(msg.sender == address(this), \\\"Not Self\\\");\\n        _;\\n    }\\n\\n    modifier requireNonZeroSignatures(uint256 _signaturesRequired) {\\n        require(_signaturesRequired > 0, \\\"Must be non-zero sigs required\\\");\\n        _;\\n    }\\n\\n    constructor(\\n        uint256 _chainId,\\n        address[] memory _owners,\\n        uint256 _signaturesRequired,\\n        address _factory\\n    ) payable requireNonZeroSignatures(_signaturesRequired) {\\n        multiSigFactory = MultiSigFactory(_factory);\\n        signaturesRequired = _signaturesRequired;\\n        for (uint256 i = 0; i < _owners.length; i++) {\\n            address owner = _owners[i];\\n\\n            require(owner != address(0), \\\"constructor: zero address\\\");\\n            require(!isOwner[owner], \\\"constructor: owner not unique\\\");\\n\\n            isOwner[owner] = true;\\n            owners.push(owner);\\n\\n            emit Owner(owner, isOwner[owner]);\\n        }\\n\\n        chainId = _chainId;\\n    }\\n\\n    function addSigner(address newSigner, uint256 newSignaturesRequired)\\n        public\\n        onlySelf\\n        requireNonZeroSignatures(newSignaturesRequired)\\n    {\\n        require(newSigner != address(0), \\\"addSigner: zero address\\\");\\n        require(!isOwner[newSigner], \\\"addSigner: owner not unique\\\");\\n\\n        isOwner[newSigner] = true;\\n        owners.push(newSigner);\\n        signaturesRequired = newSignaturesRequired;\\n\\n        emit Owner(newSigner, isOwner[newSigner]);\\n        multiSigFactory.emitOwners(\\n            address(this),\\n            owners,\\n            newSignaturesRequired\\n        );\\n    }\\n\\n    function removeSigner(address oldSigner, uint256 newSignaturesRequired)\\n        public\\n        onlySelf\\n        requireNonZeroSignatures(newSignaturesRequired)\\n    {\\n        require(isOwner[oldSigner], \\\"removeSigner: not owner\\\");\\n\\n        _removeOwner(oldSigner);\\n        signaturesRequired = newSignaturesRequired;\\n\\n        emit Owner(oldSigner, isOwner[oldSigner]);\\n        multiSigFactory.emitOwners(\\n            address(this),\\n            owners,\\n            newSignaturesRequired\\n        );\\n    }\\n\\n    function _removeOwner(address _oldSigner) private {\\n        isOwner[_oldSigner] = false;\\n        uint256 ownersLength = owners.length;\\n        address[] memory poppedOwners = new address[](owners.length);\\n        for (uint256 i = ownersLength - 1; i >= 0; i--) {\\n            if (owners[i] != _oldSigner) {\\n                poppedOwners[i] = owners[i];\\n                owners.pop();\\n            } else {\\n                owners.pop();\\n                for (uint256 j = i; j < ownersLength - 1; j++) {\\n                    owners.push(poppedOwners[j]);\\n                }\\n                return;\\n            }\\n        }\\n    }\\n\\n    function updateSignaturesRequired(uint256 newSignaturesRequired)\\n        public\\n        onlySelf\\n        requireNonZeroSignatures(newSignaturesRequired)\\n    {\\n        signaturesRequired = newSignaturesRequired;\\n    }\\n\\n    function executeTransaction(\\n        address payable to,\\n        uint256 value,\\n        bytes memory data,\\n        bytes[] memory signatures\\n    ) public onlyOwner returns (bytes memory) {\\n        bytes32 _hash = getTransactionHash(nonce, to, value, data);\\n\\n        nonce++;\\n\\n        uint256 validSignatures;\\n        address duplicateGuard;\\n        for (uint256 i = 0; i < signatures.length; i++) {\\n            address recovered = recover(_hash, signatures[i]);\\n            require(\\n                recovered > duplicateGuard,\\n                \\\"executeTransaction: duplicate or unordered signatures\\\"\\n            );\\n            duplicateGuard = recovered;\\n\\n            if (isOwner[recovered]) {\\n                validSignatures++;\\n            }\\n        }\\n\\n        require(\\n            validSignatures >= signaturesRequired,\\n            \\\"executeTransaction: not enough valid signatures\\\"\\n        );\\n\\n        (bool success, bytes memory result) = to.call{value: value}(data);\\n        require(success, \\\"executeTransaction: tx failed\\\");\\n\\n        emit ExecuteTransaction(\\n            msg.sender,\\n            to,\\n            value,\\n            data,\\n            nonce - 1,\\n            _hash,\\n            result\\n        );\\n        return result;\\n    }\\n\\n    function getTransactionHash(\\n        uint256 _nonce,\\n        address to,\\n        uint256 value,\\n        bytes memory data\\n    ) public view returns (bytes32) {\\n        return\\n            keccak256(\\n                abi.encodePacked(\\n                    address(this),\\n                    chainId,\\n                    _nonce,\\n                    to,\\n                    value,\\n                    data\\n                )\\n            );\\n    }\\n\\n    function recover(bytes32 _hash, bytes memory _signature)\\n        public\\n        pure\\n        returns (address)\\n    {\\n        return _hash.toEthSignedMessageHash().recover(_signature);\\n    }\\n\\n    receive() external payable {\\n        emit Deposit(msg.sender, msg.value, address(this).balance);\\n    }\\n}\\n\\n\",\"keccak256\":\"0x26496a2d3d26a1843a163150c8071f39275906ca84adc910c7ba6c62ac2a43e7\",\"license\":\"MIT\"},\"contracts/MultiSigFactory.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\nimport \\\"./MetaMultiSigWallet.sol\\\";\\n\\ncontract MultiSigFactory {\\n  MetaMultiSigWallet[] public multiSigs;\\n  mapping(address => bool) existsMultiSig;\\n\\n  event Create(uint256 indexed contractId, address indexed contractAddress, address creator, address[] owners, uint256 signaturesRequired);\\n\\n  event Owners(address indexed contractAddress, address[] owners, uint256 indexed signaturesRequired);\\n\\n  event DebugLog(address owner, string properTy, uint256 value, bool boolCheck, address addressCheck, bytes32 _hash);\\n\\n  constructor() {}\\n\\n  modifier onlyRegistered() {\\n    require(existsMultiSig[msg.sender], \\\"caller not registered to use logger\\\");\\n    _;\\n  }\\n\\n  function emitOwners(\\n    address _contractAddress,\\n    address[] memory _owners,\\n    uint256 _signaturesRequired\\n  ) external onlyRegistered {\\n    emit Owners(_contractAddress, _owners, _signaturesRequired);\\n  }\\n\\n  function create(\\n    uint256 _chainId,\\n    address[] memory _owners,\\n    uint256 _signaturesRequired\\n  ) public payable {\\n    uint256 id = numberOfMultiSigs();\\n\\n    MetaMultiSigWallet multiSig = (new MetaMultiSigWallet){ value: msg.value }(_chainId, _owners, _signaturesRequired, address(this));\\n    multiSigs.push(multiSig);\\n    existsMultiSig[address(multiSig)] = true;\\n\\n    emit Create(id, address(multiSig), msg.sender, _owners, _signaturesRequired);\\n    emit Owners(address(multiSig), _owners, _signaturesRequired);\\n  }\\n\\n  function numberOfMultiSigs() public view returns (uint256) {\\n    return multiSigs.length;\\n  }\\n\\n  function getMultiSig(uint256 _index)\\n    public\\n    view\\n    returns (\\n      address multiSigAddress,\\n      uint256 signaturesRequired,\\n      uint256 balance\\n    )\\n  {\\n    MetaMultiSigWallet multiSig = multiSigs[_index];\\n    return (address(multiSig), multiSig.signaturesRequired(), address(multiSig).balance);\\n  }\\n\\n  function emitDebugLog(\\n    address owner,\\n    string memory properTy,\\n    uint256 value,\\n    bool boolCheck,\\n    address addressCheck,\\n    bytes32 _hash\\n  ) public {\\n    emit DebugLog(owner, properTy, value, boolCheck, addressCheck, _hash);\\n  }\\n}\\n\",\"keccak256\":\"0x84d1a6e2a0ce8ea68f3a997772358a7f9fa25e9a814c3687bc67f9f9b377b893\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6080604052604051620018d9380380620018d9833981016040819052620000269162000279565b81600081116200007d5760405162461bcd60e51b815260206004820152601e60248201527f4d757374206265206e6f6e2d7a65726f2073696773207265717569726564000060448201526064015b60405180910390fd5b600080546001600160a01b0319166001600160a01b03841617815560038490555b84518110156200024a576000858281518110620000bf57620000bf620003a6565b6020026020010151905060006001600160a01b0316816001600160a01b031614156200012e5760405162461bcd60e51b815260206004820152601960248201527f636f6e7374727563746f723a207a65726f206164647265737300000000000000604482015260640162000074565b6001600160a01b03811660009081526001602052604090205460ff1615620001995760405162461bcd60e51b815260206004820152601d60248201527f636f6e7374727563746f723a206f776e6572206e6f7420756e69717565000000604482015260640162000074565b6001600160a01b038116600081815260016020818152604092839020805460ff1916831781556002805493840190557f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace90920180546001600160a01b031916851790559054915160ff909216151582527ffe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e910160405180910390a2508062000241816200037c565b9150506200009e565b50505060059290925550620003d29050565b80516001600160a01b03811681146200027457600080fd5b919050565b600080600080608085870312156200029057600080fd5b8451602080870151919550906001600160401b0380821115620002b257600080fd5b818801915088601f830112620002c757600080fd5b815181811115620002dc57620002dc620003bc565b8060051b604051601f19603f83011681018181108582111715620003045762000304620003bc565b604052828152858101935084860182860187018d10156200032457600080fd5b600095505b8386101562000352576200033d816200025c565b85526001959095019493860193860162000329565b508098505050505050506040850151915062000371606086016200025c565b905092959194509250565b60006000198214156200039f57634e487b7160e01b600052601160045260246000fd5b5060010190565b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b6114f780620003e26000396000f3fe6080604052600436106100a05760003560e01c8063545a4a3c11610064578063545a4a3c146101c557806365af1bed146101f35780639a8a059214610213578063affed0e014610229578063ce757d291461023f578063d1fbffa01461025557600080fd5b8063025e7c27146100e657806319045a25146101235780632f54bf6e146101435780633034a742146101835780633bad5426146101a557600080fd5b366100e1576040805134815247602082015233917f90890809c654f11d6e72a28fa60149770a0d11ec6c92319d6ceb2bb0a4ea1a15910160405180910390a2005b600080fd5b3480156100f257600080fd5b5061010661010136600461113b565b610282565b6040516001600160a01b0390911681526020015b60405180910390f35b34801561012f57600080fd5b5061010661013e3660046110f4565b6102ac565b34801561014f57600080fd5b5061017361015e366004610fa2565b60016020526000908152604090205460ff1681565b604051901515815260200161011a565b34801561018f57600080fd5b506101a361019e36600461113b565b610316565b005b3480156101b157600080fd5b506101a36101c03660046110c8565b610365565b3480156101d157600080fd5b506101e56101e0366004611154565b6104db565b60405190815260200161011a565b3480156101ff57600080fd5b506101a361020e3660046110c8565b61051a565b34801561021f57600080fd5b506101e560055481565b34801561023557600080fd5b506101e560045481565b34801561024b57600080fd5b506101e560035481565b34801561026157600080fd5b50610275610270366004610fbf565b6106b6565b60405161011a9190611314565b6002818154811061029257600080fd5b6000918252602090912001546001600160a01b0316905081565b600061030f82610309856040517f19457468657265756d205369676e6564204d6573736167653a0a3332000000006020820152603c8101829052600090605c01604051602081830303815290604052805190602001209050919050565b906109a8565b9392505050565b33301461033e5760405162461bcd60e51b815260040161033590611327565b60405180910390fd5b806000811161035f5760405162461bcd60e51b815260040161033590611349565b50600355565b3330146103845760405162461bcd60e51b815260040161033590611327565b80600081116103a55760405162461bcd60e51b815260040161033590611349565b6001600160a01b03831660009081526001602052604090205460ff1661040d5760405162461bcd60e51b815260206004820152601760248201527f72656d6f76655369676e65723a206e6f74206f776e65720000000000000000006044820152606401610335565b610416836109cc565b60038290556001600160a01b03831660008181526001602090815260409182902054915160ff909216151582527ffe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e91015b60405180910390a2600054604051632fb7d0a560e21b81526001600160a01b039091169063bedf4294906104a490309060029087906004016112ac565b600060405180830381600087803b1580156104be57600080fd5b505af11580156104d2573d6000803e3d6000fd5b50505050505050565b600030600554868686866040516020016104fa969594939291906111e3565b604051602081830303815290604052805190602001209050949350505050565b3330146105395760405162461bcd60e51b815260040161033590611327565b806000811161055a5760405162461bcd60e51b815260040161033590611349565b6001600160a01b0383166105b05760405162461bcd60e51b815260206004820152601760248201527f6164645369676e65723a207a65726f20616464726573730000000000000000006044820152606401610335565b6001600160a01b03831660009081526001602052604090205460ff16156106195760405162461bcd60e51b815260206004820152601b60248201527f6164645369676e65723a206f776e6572206e6f7420756e6971756500000000006044820152606401610335565b6001600160a01b038316600081815260016020818152604092839020805460ff1916831781556002805493840190557f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace90920180546001600160a01b0319168517905560038690559054915160ff909216151582527ffe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e9101610467565b3360009081526001602052604090205460609060ff166107045760405162461bcd60e51b81526020600482015260096024820152682737ba1037bbb732b960b91b6044820152606401610335565b60006107146004548787876104db565b60048054919250600061072683611423565b919050555060008060005b855181101561082757600061075f8588848151811061075257610752611480565b60200260200101516102ac565b9050826001600160a01b0316816001600160a01b0316116107e05760405162461bcd60e51b815260206004820152603560248201527f657865637574655472616e73616374696f6e3a206475706c6963617465206f7260448201527420756e6f726465726564207369676e61747572657360581b6064820152608401610335565b6001600160a01b038116600090815260016020526040902054909250829060ff1615610814578361081081611423565b9450505b508061081f81611423565b915050610731565b506003548210156108925760405162461bcd60e51b815260206004820152602f60248201527f657865637574655472616e73616374696f6e3a206e6f7420656e6f756768207660448201526e616c6964207369676e61747572657360881b6064820152608401610335565b600080896001600160a01b031689896040516108ae919061123e565b60006040518083038185875af1925050503d80600081146108eb576040519150601f19603f3d011682016040523d82523d6000602084013e6108f0565b606091505b5091509150816109425760405162461bcd60e51b815260206004820152601d60248201527f657865637574655472616e73616374696f6e3a207478206661696c65640000006044820152606401610335565b336001600160a01b03167f9053e9ec105157fac8c9308d63e6b22be5f50fe915a3e567419b624311a02d748b8b8b600160045461097f91906113c9565b8a876040516109939695949392919061125a565b60405180910390a29998505050505050505050565b60008060006109b78585610bde565b915091506109c481610c4e565b509392505050565b6001600160a01b0381166000908152600160205260408120805460ff19169055600254908167ffffffffffffffff811115610a0957610a09611496565b604051908082528060200260200182016040528015610a32578160200160208202803683370190505b5090506000610a426001846113c9565b90505b836001600160a01b031660028281548110610a6257610a62611480565b6000918252602090912001546001600160a01b031614610b175760028181548110610a8f57610a8f611480565b9060005260206000200160009054906101000a90046001600160a01b0316828281518110610abf57610abf611480565b60200260200101906001600160a01b031690816001600160a01b0316815250506002805480610af057610af061146a565b600082815260209020810160001990810180546001600160a01b0319169055019055610bc6565b6002805480610b2857610b2861146a565b600082815260209020810160001990810180546001600160a01b0319169055019055805b610b576001856113c9565b811015610bbf576002838281518110610b7257610b72611480565b60209081029190910181015182546001810184556000938452919092200180546001600160a01b0319166001600160a01b0390921691909117905580610bb781611423565b915050610b4c565b5050505050565b80610bd08161140c565b915050610a45565b50505050565b600080825160411415610c155760208301516040840151606085015160001a610c0987828585610e0c565b94509450505050610c47565b825160401415610c3f5760208301516040840151610c34868383610ef9565b935093505050610c47565b506000905060025b9250929050565b6000816004811115610c6257610c62611454565b1415610c6b5750565b6001816004811115610c7f57610c7f611454565b1415610ccd5760405162461bcd60e51b815260206004820152601860248201527f45434453413a20696e76616c6964207369676e617475726500000000000000006044820152606401610335565b6002816004811115610ce157610ce1611454565b1415610d2f5760405162461bcd60e51b815260206004820152601f60248201527f45434453413a20696e76616c6964207369676e6174757265206c656e677468006044820152606401610335565b6003816004811115610d4357610d43611454565b1415610d9c5760405162461bcd60e51b815260206004820152602260248201527f45434453413a20696e76616c6964207369676e6174757265202773272076616c604482015261756560f01b6064820152608401610335565b6004816004811115610db057610db0611454565b1415610e095760405162461bcd60e51b815260206004820152602260248201527f45434453413a20696e76616c6964207369676e6174757265202776272076616c604482015261756560f01b6064820152608401610335565b50565b6000807f7fffffffffffffffffffffffffffffff5d576e7357a4501ddfe92f46681b20a0831115610e435750600090506003610ef0565b8460ff16601b14158015610e5b57508460ff16601c14155b15610e6c5750600090506004610ef0565b6040805160008082526020820180845289905260ff881692820192909252606081018690526080810185905260019060a0016020604051602081039080840390855afa158015610ec0573d6000803e3d6000fd5b5050604051601f1901519150506001600160a01b038116610ee957600060019250925050610ef0565b9150600090505b94509492505050565b6000806001600160ff1b03831681610f1660ff86901c601b6113b1565b9050610f2487828885610e0c565b935093505050935093915050565b600082601f830112610f4357600080fd5b813567ffffffffffffffff811115610f5d57610f5d611496565b610f70601f8201601f1916602001611380565b818152846020838601011115610f8557600080fd5b816020850160208301376000918101602001919091529392505050565b600060208284031215610fb457600080fd5b813561030f816114ac565b60008060008060808587031215610fd557600080fd5b8435610fe0816114ac565b93506020858101359350604086013567ffffffffffffffff8082111561100557600080fd5b61101189838a01610f32565b9450606088013591508082111561102757600080fd5b818801915088601f83011261103b57600080fd5b81358181111561104d5761104d611496565b8060051b61105c858201611380565b8281528581019085870183870188018e101561107757600080fd5b600093505b848410156110b65780358681111561109357600080fd5b6110a18f8a838b0101610f32565b8452506001939093019291870191870161107c565b50999c989b5096995050505050505050565b600080604083850312156110db57600080fd5b82356110e6816114ac565b946020939093013593505050565b6000806040838503121561110757600080fd5b82359150602083013567ffffffffffffffff81111561112557600080fd5b61113185828601610f32565b9150509250929050565b60006020828403121561114d57600080fd5b5035919050565b6000806000806080858703121561116a57600080fd5b84359350602085013561117c816114ac565b925060408501359150606085013567ffffffffffffffff81111561119f57600080fd5b6111ab87828801610f32565b91505092959194509250565b600081518084526111cf8160208601602086016113e0565b601f01601f19169290920160200192915050565b60006bffffffffffffffffffffffff19808960601b168352876014840152866034840152808660601b16605484015250836068830152825161122c8160888501602087016113e0565b91909101608801979650505050505050565b600082516112508184602087016113e0565b9190910192915050565b60018060a01b038716815285602082015260c06040820152600061128160c08301876111b7565b85606084015284608084015282810360a084015261129f81856111b7565b9998505050505050505050565b60006060820160018060a01b03808716845260206060818601528287548085526080870191508860005282600020945060005b818110156112fd5785548516835260019586019592840192016112df565b505080945050505050826040830152949350505050565b60208152600061030f60208301846111b7565b6020808252600890820152672737ba1029b2b63360c11b604082015260600190565b6020808252601e908201527f4d757374206265206e6f6e2d7a65726f20736967732072657175697265640000604082015260600190565b604051601f8201601f1916810167ffffffffffffffff811182821017156113a9576113a9611496565b604052919050565b600082198211156113c4576113c461143e565b500190565b6000828210156113db576113db61143e565b500390565b60005b838110156113fb5781810151838201526020016113e3565b83811115610bd85750506000910152565b60008161141b5761141b61143e565b506000190190565b60006000198214156114375761143761143e565b5060010190565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052602160045260246000fd5b634e487b7160e01b600052603160045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b6001600160a01b0381168114610e0957600080fdfea2646970667358221220a89b603bcc30502bec95add77cbead3955ee56f6f10d735558f0d0326453a22364736f6c63430008060033",
+  "deployedBytecode": "0x6080604052600436106100a05760003560e01c8063545a4a3c11610064578063545a4a3c146101c557806365af1bed146101f35780639a8a059214610213578063affed0e014610229578063ce757d291461023f578063d1fbffa01461025557600080fd5b8063025e7c27146100e657806319045a25146101235780632f54bf6e146101435780633034a742146101835780633bad5426146101a557600080fd5b366100e1576040805134815247602082015233917f90890809c654f11d6e72a28fa60149770a0d11ec6c92319d6ceb2bb0a4ea1a15910160405180910390a2005b600080fd5b3480156100f257600080fd5b5061010661010136600461113b565b610282565b6040516001600160a01b0390911681526020015b60405180910390f35b34801561012f57600080fd5b5061010661013e3660046110f4565b6102ac565b34801561014f57600080fd5b5061017361015e366004610fa2565b60016020526000908152604090205460ff1681565b604051901515815260200161011a565b34801561018f57600080fd5b506101a361019e36600461113b565b610316565b005b3480156101b157600080fd5b506101a36101c03660046110c8565b610365565b3480156101d157600080fd5b506101e56101e0366004611154565b6104db565b60405190815260200161011a565b3480156101ff57600080fd5b506101a361020e3660046110c8565b61051a565b34801561021f57600080fd5b506101e560055481565b34801561023557600080fd5b506101e560045481565b34801561024b57600080fd5b506101e560035481565b34801561026157600080fd5b50610275610270366004610fbf565b6106b6565b60405161011a9190611314565b6002818154811061029257600080fd5b6000918252602090912001546001600160a01b0316905081565b600061030f82610309856040517f19457468657265756d205369676e6564204d6573736167653a0a3332000000006020820152603c8101829052600090605c01604051602081830303815290604052805190602001209050919050565b906109a8565b9392505050565b33301461033e5760405162461bcd60e51b815260040161033590611327565b60405180910390fd5b806000811161035f5760405162461bcd60e51b815260040161033590611349565b50600355565b3330146103845760405162461bcd60e51b815260040161033590611327565b80600081116103a55760405162461bcd60e51b815260040161033590611349565b6001600160a01b03831660009081526001602052604090205460ff1661040d5760405162461bcd60e51b815260206004820152601760248201527f72656d6f76655369676e65723a206e6f74206f776e65720000000000000000006044820152606401610335565b610416836109cc565b60038290556001600160a01b03831660008181526001602090815260409182902054915160ff909216151582527ffe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e91015b60405180910390a2600054604051632fb7d0a560e21b81526001600160a01b039091169063bedf4294906104a490309060029087906004016112ac565b600060405180830381600087803b1580156104be57600080fd5b505af11580156104d2573d6000803e3d6000fd5b50505050505050565b600030600554868686866040516020016104fa969594939291906111e3565b604051602081830303815290604052805190602001209050949350505050565b3330146105395760405162461bcd60e51b815260040161033590611327565b806000811161055a5760405162461bcd60e51b815260040161033590611349565b6001600160a01b0383166105b05760405162461bcd60e51b815260206004820152601760248201527f6164645369676e65723a207a65726f20616464726573730000000000000000006044820152606401610335565b6001600160a01b03831660009081526001602052604090205460ff16156106195760405162461bcd60e51b815260206004820152601b60248201527f6164645369676e65723a206f776e6572206e6f7420756e6971756500000000006044820152606401610335565b6001600160a01b038316600081815260016020818152604092839020805460ff1916831781556002805493840190557f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace90920180546001600160a01b0319168517905560038690559054915160ff909216151582527ffe545f48304051c4029eb2da9927daa59da0414b4b084fdceaf2955b609b899e9101610467565b3360009081526001602052604090205460609060ff166107045760405162461bcd60e51b81526020600482015260096024820152682737ba1037bbb732b960b91b6044820152606401610335565b60006107146004548787876104db565b60048054919250600061072683611423565b919050555060008060005b855181101561082757600061075f8588848151811061075257610752611480565b60200260200101516102ac565b9050826001600160a01b0316816001600160a01b0316116107e05760405162461bcd60e51b815260206004820152603560248201527f657865637574655472616e73616374696f6e3a206475706c6963617465206f7260448201527420756e6f726465726564207369676e61747572657360581b6064820152608401610335565b6001600160a01b038116600090815260016020526040902054909250829060ff1615610814578361081081611423565b9450505b508061081f81611423565b915050610731565b506003548210156108925760405162461bcd60e51b815260206004820152602f60248201527f657865637574655472616e73616374696f6e3a206e6f7420656e6f756768207660448201526e616c6964207369676e61747572657360881b6064820152608401610335565b600080896001600160a01b031689896040516108ae919061123e565b60006040518083038185875af1925050503d80600081146108eb576040519150601f19603f3d011682016040523d82523d6000602084013e6108f0565b606091505b5091509150816109425760405162461bcd60e51b815260206004820152601d60248201527f657865637574655472616e73616374696f6e3a207478206661696c65640000006044820152606401610335565b336001600160a01b03167f9053e9ec105157fac8c9308d63e6b22be5f50fe915a3e567419b624311a02d748b8b8b600160045461097f91906113c9565b8a876040516109939695949392919061125a565b60405180910390a29998505050505050505050565b60008060006109b78585610bde565b915091506109c481610c4e565b509392505050565b6001600160a01b0381166000908152600160205260408120805460ff19169055600254908167ffffffffffffffff811115610a0957610a09611496565b604051908082528060200260200182016040528015610a32578160200160208202803683370190505b5090506000610a426001846113c9565b90505b836001600160a01b031660028281548110610a6257610a62611480565b6000918252602090912001546001600160a01b031614610b175760028181548110610a8f57610a8f611480565b9060005260206000200160009054906101000a90046001600160a01b0316828281518110610abf57610abf611480565b60200260200101906001600160a01b031690816001600160a01b0316815250506002805480610af057610af061146a565b600082815260209020810160001990810180546001600160a01b0319169055019055610bc6565b6002805480610b2857610b2861146a565b600082815260209020810160001990810180546001600160a01b0319169055019055805b610b576001856113c9565b811015610bbf576002838281518110610b7257610b72611480565b60209081029190910181015182546001810184556000938452919092200180546001600160a01b0319166001600160a01b0390921691909117905580610bb781611423565b915050610b4c565b5050505050565b80610bd08161140c565b915050610a45565b50505050565b600080825160411415610c155760208301516040840151606085015160001a610c0987828585610e0c565b94509450505050610c47565b825160401415610c3f5760208301516040840151610c34868383610ef9565b935093505050610c47565b506000905060025b9250929050565b6000816004811115610c6257610c62611454565b1415610c6b5750565b6001816004811115610c7f57610c7f611454565b1415610ccd5760405162461bcd60e51b815260206004820152601860248201527f45434453413a20696e76616c6964207369676e617475726500000000000000006044820152606401610335565b6002816004811115610ce157610ce1611454565b1415610d2f5760405162461bcd60e51b815260206004820152601f60248201527f45434453413a20696e76616c6964207369676e6174757265206c656e677468006044820152606401610335565b6003816004811115610d4357610d43611454565b1415610d9c5760405162461bcd60e51b815260206004820152602260248201527f45434453413a20696e76616c6964207369676e6174757265202773272076616c604482015261756560f01b6064820152608401610335565b6004816004811115610db057610db0611454565b1415610e095760405162461bcd60e51b815260206004820152602260248201527f45434453413a20696e76616c6964207369676e6174757265202776272076616c604482015261756560f01b6064820152608401610335565b50565b6000807f7fffffffffffffffffffffffffffffff5d576e7357a4501ddfe92f46681b20a0831115610e435750600090506003610ef0565b8460ff16601b14158015610e5b57508460ff16601c14155b15610e6c5750600090506004610ef0565b6040805160008082526020820180845289905260ff881692820192909252606081018690526080810185905260019060a0016020604051602081039080840390855afa158015610ec0573d6000803e3d6000fd5b5050604051601f1901519150506001600160a01b038116610ee957600060019250925050610ef0565b9150600090505b94509492505050565b6000806001600160ff1b03831681610f1660ff86901c601b6113b1565b9050610f2487828885610e0c565b935093505050935093915050565b600082601f830112610f4357600080fd5b813567ffffffffffffffff811115610f5d57610f5d611496565b610f70601f8201601f1916602001611380565b818152846020838601011115610f8557600080fd5b816020850160208301376000918101602001919091529392505050565b600060208284031215610fb457600080fd5b813561030f816114ac565b60008060008060808587031215610fd557600080fd5b8435610fe0816114ac565b93506020858101359350604086013567ffffffffffffffff8082111561100557600080fd5b61101189838a01610f32565b9450606088013591508082111561102757600080fd5b818801915088601f83011261103b57600080fd5b81358181111561104d5761104d611496565b8060051b61105c858201611380565b8281528581019085870183870188018e101561107757600080fd5b600093505b848410156110b65780358681111561109357600080fd5b6110a18f8a838b0101610f32565b8452506001939093019291870191870161107c565b50999c989b5096995050505050505050565b600080604083850312156110db57600080fd5b82356110e6816114ac565b946020939093013593505050565b6000806040838503121561110757600080fd5b82359150602083013567ffffffffffffffff81111561112557600080fd5b61113185828601610f32565b9150509250929050565b60006020828403121561114d57600080fd5b5035919050565b6000806000806080858703121561116a57600080fd5b84359350602085013561117c816114ac565b925060408501359150606085013567ffffffffffffffff81111561119f57600080fd5b6111ab87828801610f32565b91505092959194509250565b600081518084526111cf8160208601602086016113e0565b601f01601f19169290920160200192915050565b60006bffffffffffffffffffffffff19808960601b168352876014840152866034840152808660601b16605484015250836068830152825161122c8160888501602087016113e0565b91909101608801979650505050505050565b600082516112508184602087016113e0565b9190910192915050565b60018060a01b038716815285602082015260c06040820152600061128160c08301876111b7565b85606084015284608084015282810360a084015261129f81856111b7565b9998505050505050505050565b60006060820160018060a01b03808716845260206060818601528287548085526080870191508860005282600020945060005b818110156112fd5785548516835260019586019592840192016112df565b505080945050505050826040830152949350505050565b60208152600061030f60208301846111b7565b6020808252600890820152672737ba1029b2b63360c11b604082015260600190565b6020808252601e908201527f4d757374206265206e6f6e2d7a65726f20736967732072657175697265640000604082015260600190565b604051601f8201601f1916810167ffffffffffffffff811182821017156113a9576113a9611496565b604052919050565b600082198211156113c4576113c461143e565b500190565b6000828210156113db576113db61143e565b500390565b60005b838110156113fb5781810151838201526020016113e3565b83811115610bd85750506000910152565b60008161141b5761141b61143e565b506000190190565b60006000198214156114375761143761143e565b5060010190565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052602160045260246000fd5b634e487b7160e01b600052603160045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b6001600160a01b0381168114610e0957600080fdfea2646970667358221220a89b603bcc30502bec95add77cbead3955ee56f6f10d735558f0d0326453a22364736f6c63430008060033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 620,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "multiSigFactory",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_contract(MultiSigFactory)1405"
+      },
+      {
+        "astId": 654,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "isOwner",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_bool)"
+      },
+      {
+        "astId": 657,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "owners",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_array(t_address)dyn_storage"
+      },
+      {
+        "astId": 659,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "signaturesRequired",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 661,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "nonce",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 663,
+        "contract": "contracts/MetaMultiSigWallet.sol:MetaMultiSigWallet",
+        "label": "chainId",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(MultiSigFactory)1405": {
+        "encoding": "inplace",
+        "label": "contract MultiSigFactory",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
