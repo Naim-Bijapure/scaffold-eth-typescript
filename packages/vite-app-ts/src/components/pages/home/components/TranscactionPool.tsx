@@ -35,9 +35,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
     try {
       const transcactions = await (await API.get(`/${walletAddress}`)).data['transcactions'];
       console.log('transcactions: ', transcactions);
-
-      // const parsedData = walletFactory.interface.parseTransaction({ data: transcactions[0]['hash'] });
-      setTranscactions(transcactions.filter((data: any) => data['isExecuted'] === isExecutedPool));
+      setTranscactions(transcactions);
     } catch (error) {
       // setTranscactions([]);
     }
@@ -61,7 +59,6 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
     console.log('nounce: ', nounce.toNumber());
     const updatedhash = await walletContract.getTransactionHash(
       nounce.toNumber(),
-      // ethersContext.account as string,
       transcactions[selectedTranscactionIndex]['to'],
       transcactions[selectedTranscactionIndex]['value'],
       transcactions[selectedTranscactionIndex]['callData']
@@ -80,7 +77,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
       const value = currentTranscaction['value'];
       const callData = currentTranscaction['callData'];
       const signitures: string[] = currentTranscaction['signatures']
-        .sort((dataA, dataB) => dataA['owner'] - dataB['owner'])
+        .sort((dataA: any, dataB: any) => dataA['owner'] - dataB['owner'])
         .map((data: { owner: any; sign: string }) => data?.sign);
 
       const toAddress = currentTranscaction['to'];
@@ -98,10 +95,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
   };
 
   const onSignTranscaction = async (transcactionId: string): Promise<void> => {
-    console.log('transcactionId: ', transcactionId);
     const selectedTranscactionIndex = transcactions.findIndex((data, index) => data['proposalId'] === transcactionId);
-
-    // const transcactionHash = transcactions[selectedTranscactionIndex]['hash'];
 
     const nounce = await walletContract.nonce();
     const updatedhash = await walletContract.getTransactionHash(
@@ -155,7 +149,7 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
     <div>
       {/* pool collaps list */}
 
-      {transcactions.length > 0 && (
+      {transcactions.filter((data: any) => data['isExecuted'] === isExecutedPool).length > 0 && (
         <div className={transcactions.length !== 0 ? '' : 'hidden'}>
           <Card title={isExecutedPool ? 'Executed transcaction pool' : 'Transcaction pool'}>
             <Collapse
@@ -164,124 +158,127 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
               defaultActiveKey={['1']}
               expandIcon={({ isActive }): any => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
               className="w-full site-collapse-custom-collapse">
-              {transcactions.map((data, index) => {
-                //
-                const isExecutable = data.signatureRequired === data?.signatures.length;
-                const functionSignature: string =
-                  data.callData === '0x'
-                    ? data.callData
-                    : walletFactory.interface.parseTransaction({
-                        data: data.callData,
-                      }).signature;
+              {transcactions
+                .filter((data: any) => data['isExecuted'] === isExecutedPool)
+                .map((data, index) => {
+                  //check is executable
+                  const isExecutable = data.signatureRequired === data?.signatures.length;
 
-                const isUserSigned = data.signatures.find((data: any) => data.owner === etherContext.account)
-                  ? true
-                  : false;
+                  // get function sigature
+                  const functionSignature: string =
+                    data.callData === '0x'
+                      ? data.callData
+                      : walletFactory.interface.parseTransaction({
+                          data: data.callData,
+                        }).signature;
 
-                return (
-                  <Panel
-                    key={data.proposalId}
-                    header={
-                      <div className="flex items-center justify-start  w-[70%] ">
-                        <span className="mx-5">#{index + 1}</span>
-                        <span>
-                          <Blockie scale={3} address={data['hash']} />
-                        </span>
-                        <span className="mx-2 ">{data.hash.slice(0, 6)}</span>
-                        <span className="mr-auto">{data['eventName']}</span>
-                        <div className="w-1/2 ml-auto  ">
-                          <Tooltip
-                            title={`${data?.signatures.length}/${data.signatureRequired} signatures`}
-                            color={'blue'}>
-                            <Progress
-                              showInfo={false}
-                              percent={100}
-                              success={{ percent: (100 / data.signatureRequired) * data?.signatures.length }}
-                              size="small"
-                            />
-                          </Tooltip>
-                        </div>
-                        <div className="ml-auto">
-                          <Tooltip
-                            title={
-                              isExecutable
-                                ? 'all signatures completed'
-                                : isUserSigned
-                                ? 'You already signed '
-                                : 'sign the proposal'
-                            }
-                            color={isExecutable ? 'green' : isUserSigned ? 'yellow' : 'blue'}>
-                            <Button
-                              type="link"
-                              onClick={async (): Promise<any> => {
-                                await onSignTranscaction(data['proposalId']);
-                              }}
-                              disabled={isExecutable || isUserSigned}
-                              icon={<SignIcon className="text-xl" style={{ color: 'green' }} />}></Button>
-                          </Tooltip>
-                        </div>
+                  const isUserSigned = data.signatures.find((data: any) => data.owner === etherContext.account)
+                    ? true
+                    : false;
 
-                        <div className="ml-auto n-poolBalance">
-                          <Balance address="" balance={data['value']} dollarMultiplier={price} />
-                        </div>
-                      </div>
-                    }
-                    key={index}
-                    className="w-full"
-                    extra={ExecuteButton(isExecutable, data['proposalId'])}>
-                    <p>
-                      <Descriptions
-                        title="Proposal details"
-                        bordered
-                        layout="vertical"
-                        column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                        <Descriptions.Item label="Event Name">{data.eventName}</Descriptions.Item>
-                        <Descriptions.Item label="Function signature">{functionSignature}</Descriptions.Item>
-                        <Descriptions.Item label="Sign hash">{data?.hash.slice(0, 6)}</Descriptions.Item>
-                        <Descriptions.Item label="From">
-                          <p className="n-addressAdjustement">
-                            <Address address={data['from']} />
-                          </p>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="To">
-                          <p className="n-addressAdjustement">
-                            <Address address={data['to']} />
-                          </p>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Signature required">{data.signatureRequired}</Descriptions.Item>
-                        <Descriptions.Item label="Owners">
-                          <p>
-                            {data.signers.map((sign: any, index) => {
-                              return (
-                                <p key={sign} className="n-addressAdjustement">
-                                  <Address address={sign} />
-                                </p>
-                              );
-                            })}
-                          </p>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Signed owners">
-                          <p>
-                            {data.signatures?.map(({ owner, sign }: any, index: number) => {
-                              return (
-                                <p key={owner} className="n-addressAdjustement">
-                                  <Address address={owner} />
-                                </p>
-                              );
-                            })}
-                          </p>
-                        </Descriptions.Item>
+                  return (
+                    <Panel
+                      key={data.proposalId}
+                      header={
+                        <div className="flex items-center justify-start  w-[70%] ">
+                          <span className="mx-5">#{index + 1}</span>
+                          <span>
+                            <Blockie scale={3} address={data['hash']} />
+                          </span>
+                          <span className="mx-2 ">{data.hash.slice(0, 6)}</span>
+                          <span className="mr-auto">{data['eventName']}</span>
+                          <div className="w-1/2 ml-auto  ">
+                            <Tooltip
+                              title={`${data?.signatures.length}/${data.signatureRequired} signatures`}
+                              color={'blue'}>
+                              <Progress
+                                showInfo={false}
+                                percent={100}
+                                success={{ percent: (100 / data.signatureRequired) * data?.signatures.length }}
+                                size="small"
+                              />
+                            </Tooltip>
+                          </div>
+                          <div className="ml-auto">
+                            <Tooltip
+                              title={
+                                isExecutable
+                                  ? 'all signatures completed'
+                                  : isUserSigned
+                                  ? 'You already signed '
+                                  : 'sign the proposal'
+                              }
+                              color={isExecutable ? 'green' : isUserSigned ? 'yellow' : 'blue'}>
+                              <Button
+                                type="link"
+                                onClick={async (): Promise<any> => {
+                                  await onSignTranscaction(data['proposalId']);
+                                }}
+                                disabled={isExecutable || isUserSigned}
+                                icon={<SignIcon className="text-xl" style={{ color: 'green' }} />}></Button>
+                            </Tooltip>
+                          </div>
 
-                        <Descriptions.Item label="Value">
-                          <p className="n-poolBalance">
+                          <div className="ml-auto n-poolBalance">
                             <Balance address="" balance={data['value']} dollarMultiplier={price} />
-                          </p>
-                        </Descriptions.Item>
-                      </Descriptions>
-                    </p>
-                  </Panel>
-                );
-              })}
+                          </div>
+                        </div>
+                      }
+                      className="w-full"
+                      extra={ExecuteButton(isExecutable, data['proposalId'])}>
+                      <p>
+                        <Descriptions
+                          title="Proposal details"
+                          bordered
+                          layout="vertical"
+                          column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
+                          <Descriptions.Item label="Event Name">{data.eventName}</Descriptions.Item>
+                          <Descriptions.Item label="Function signature">{functionSignature}</Descriptions.Item>
+                          <Descriptions.Item label="Sign hash">{data?.hash.slice(0, 6)}</Descriptions.Item>
+                          <Descriptions.Item label="From">
+                            <p className="n-addressAdjustement">
+                              <Address address={data['from']} />
+                            </p>
+                          </Descriptions.Item>
+                          <Descriptions.Item label="To">
+                            <p className="n-addressAdjustement">
+                              <Address address={data['to']} />
+                            </p>
+                          </Descriptions.Item>
+                          <Descriptions.Item label="Signature required">{data.signatureRequired}</Descriptions.Item>
+                          <Descriptions.Item label="Owners">
+                            <p>
+                              {data.signers.map((sign: any) => {
+                                return (
+                                  <p key={sign} className="n-addressAdjustement">
+                                    <Address address={sign} />
+                                  </p>
+                                );
+                              })}
+                            </p>
+                          </Descriptions.Item>
+                          <Descriptions.Item label="Signed owners">
+                            <p>
+                              {data.signatures?.map(({ owner, sign }: any, index: number) => {
+                                return (
+                                  <p key={owner} className="n-addressAdjustement">
+                                    <Address address={owner} />
+                                  </p>
+                                );
+                              })}
+                            </p>
+                          </Descriptions.Item>
+
+                          <Descriptions.Item label="Value">
+                            <p className="n-poolBalance">
+                              <Balance address="" balance={data['value']} dollarMultiplier={price} />
+                            </p>
+                          </Descriptions.Item>
+                        </Descriptions>
+                      </p>
+                    </Panel>
+                  );
+                })}
             </Collapse>
           </Card>
         </div>
@@ -289,7 +286,10 @@ const TranscactionPool: React.FC<ITranscactionPool> = ({
 
       {/* empty */}
 
-      <div className={transcactions.length === 0 ? 'm-20' : 'hidden'}>
+      <div
+        className={
+          transcactions.filter((data: any) => data['isExecuted'] === isExecutedPool).length === 0 ? 'm-20' : 'hidden'
+        }>
         <Empty description={'No transcactions'} />
       </div>
     </div>

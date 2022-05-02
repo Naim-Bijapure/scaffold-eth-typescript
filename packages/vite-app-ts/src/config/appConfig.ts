@@ -15,11 +15,17 @@ invariant.log('MODE', import.meta.env.MODE, import.meta.env.DEV);
  * 🤚🏽  Set your target frontend network <--- select your target frontend network(localhost, rinkeby, xdai, mainnet)
  */
 
-const targetNetwork: TNetworkNames = import.meta.env.VITE_APP_TARGET_NETWORK as TNetworkNames;
-invariant.log('VITE_APP_TARGET_NETWORK', import.meta.env.VITE_APP_TARGET_NETWORK);
+const cachedNetwork = window.localStorage.getItem('network') || 'rinkeby';
+// console.log('cachedNetwork: ', cachedNetwork);
+
+export const targetNetwork: TNetworkNames = cachedNetwork as TNetworkNames;
+// const targetNetwork: TNetworkNames = import.meta.env.VITE_APP_TARGET_NETWORK as TNetworkNames;
+// invariant.log('VITE_APP_TARGET_NETWORK', import.meta.env.VITE_APP_TARGET_NETWORK);
+invariant.log('VITE_APP_TARGET_NETWORK', targetNetwork);
 invariant(NETWORKS[targetNetwork] != null, `Invalid target network: ${targetNetwork}`);
 
 export const TARGET_NETWORK_INFO: TNetworkInfo = NETWORKS[targetNetwork];
+// export const TARGET_NETWORK_INFO: TNetworkInfo = NETWORKS[targetNetwork];
 if (DEBUG) console.log(`📡 Connecting to ${TARGET_NETWORK_INFO.name}`);
 
 /** ******************************

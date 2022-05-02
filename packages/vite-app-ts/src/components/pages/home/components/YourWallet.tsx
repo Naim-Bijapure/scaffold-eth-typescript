@@ -28,8 +28,6 @@ const YourWallet: React.FC<IYourMultiSig> = ({
   walletContract,
   walletFactory,
 }) => {
-  function callback(key) {}
-
   return (
     <div>
       <div className="flex justify-center ">

@@ -18,6 +18,9 @@ import { useAppContracts } from '~~/config/contractContext';
 import { MetaMultiSigWallet, OwnerEvent } from '~~/generated/contract-types/MetaMultiSigWallet';
 import { asyncDelay } from '~~/models/constants/constants';
 
+import { NETWORKS, TNetworkNames } from '~~/models/constants/networks';
+import { TARGET_NETWORK_INFO } from '~~/config/appConfig';
+
 const BLOCKNATIVE_DAPPID = import.meta.env.VITE_KEY_BLOCKNATIVE_DAPPID;
 // create eth components context for options and API keys
 const ethComponentsSettings: IEthComponentsSettings = {
@@ -100,35 +103,35 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
     // setOpenModal(false);
     setOpenModal({ ...openModal, [modalType]: false });
   };
-  // assign contract addresses
+
+  // assign current created wallet addresses
   useEffect(() => {
-    const lastOwner = owners.length === 0 ? owners : [owners[owners.length - 1]];
-    const multiSigContracts = lastOwner
-      .filter((obj) => obj.args[1].includes(ethersContext.account))
+    const multiSigContracts = owners
+      .filter((obj) => (obj.args[1] as any).includes(ethersContext.account))
       .map((obj) => obj.args[0]);
 
-    setMultiSigContracts(multiSigContracts);
+    setMultiSigContracts([...new Set([...multiSigContracts])]);
     setCurrentSelectedWallet(multiSigContracts.length > 0 ? multiSigContracts[multiSigContracts.length - 1] : '');
   }, [owners.length, ethersContext.account, owners]);
 
   // assign contract wallet addresses
   useEffect(() => {
     const lastOwner = owners.length === 0 ? owners : [owners[owners.length - 1]];
-    const walletOwners: any = lastOwner
+    const walletOwners: any = owners
       .filter((obj) => obj.args[0] === currentSelectedWallet)
       .map((obj) => obj.args[1])
       .flat();
 
-    let signatureCount: any = lastOwner
+    let signatureCount: any = owners
       .filter((obj) => obj.args[0] === currentSelectedWallet)
       .map((obj) => obj.args[2])
       .flat();
-    signatureCount = currentSelectedWallet.length > 0 ? signatureCount[0].toNumber() : 0;
+    signatureCount = currentSelectedWallet.length > 0 ? signatureCount[0]?.toNumber() : 0;
 
     setSignatureCount(signatureCount);
-    setWalletOwners(walletOwners);
+    setWalletOwners([...new Set([...walletOwners])]);
     setCurrentTab('1');
-  }, [currentSelectedWallet, owners]);
+  }, [currentSelectedWallet]);
 
   // created a contract instance from current selected contract wallet
   const loadContract = async (): Promise<void> => {
@@ -146,8 +149,23 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
     void loadContract();
   }, [currentSelectedWallet]);
 
+  // const cachedNetwork: TNetworkNames = window.localStorage.getItem('network') as TNetworkNames;
+  const targetNetwork = TARGET_NETWORK_INFO;
+
+  const options = [];
+  for (const id in NETWORKS) {
+    options.push(
+      <Select.Option key={id} value={NETWORKS[id as TNetworkNames].name as TNetworkNames}>
+        <span style={{ color: NETWORKS[id as TNetworkNames].color }}>{NETWORKS[id as TNetworkNames].name}</span>
+      </Select.Option>
+    );
+  }
+
+  // const networkSelect = (
+  // );
+
   return (
-    <div className="flex flex-col items-start m-5">
+    <div className="flex flex-col items-start m-5" key={ethersContext.account}>
       {/* action block */}
       <div className="flex justify-between w-full m-1">
         {/* select */}
@@ -168,27 +186,22 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
           </Select>
         </div>
 
-        {/* <div>
-          <Button
-            onClick={async (): Promise<void> => {
-              const signaturesRequired = await currentContractWallet?.signaturesRequired();
-              
-
-              const isOwner = await currentContractWallet?.isOwner('0xbA4C9A16f4030c2455316Bf2F169bB5b185cCAa4');
-              
-
-              const nounce = await currentContractWallet?.nonce();
-              
-
-              const owners = await currentContractWallet?.owners(0);
-              
-            }}
-            className="flex items-center h-8"
-            // icon={<ProposeIcon style={{ color: '#40A9FF' }} className="text-2xl" />}
-          >
-            Debug
-          </Button>
-        </div> */}
+        {/* select network */}
+        <div className="w-[10%] mx-2 ">
+          <Select
+            defaultValue={targetNetwork.name as TNetworkNames}
+            style={{ textAlign: 'left', width: 170 }}
+            onChange={(value: TNetworkNames): void => {
+              if (targetNetwork.chainId !== NETWORKS[value].chainId) {
+                window.localStorage.setItem('network', value);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1);
+              }
+            }}>
+            {options}
+          </Select>
+        </div>
 
         {/* create add proposal */}
 
@@ -233,13 +246,6 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
               etherContext={ethersContext}
             />
           </TabPane>
-          {/* <TabPane tab="Propose Transcation" key="2">
-            <ProposeTranscaction
-              walletContract={currentContractWallet as MetaMultiSigWallet}
-              walletAddress={currentSelectedWallet}
-              walletFactory={metaMultiSigWallet as MetaMultiSigWallet}
-            />
-          </TabPane> */}
           <TabPane tab="Pool" key="2">
             <TranscactionPool
               key={currentTab}
@@ -261,6 +267,8 @@ export const Home: React.FC<IHome> = ({ price, scaffoldAppProviders }) => {
         onSubmit={onWalletCreate}
         provider={ethersContext.provider}
         price={price}
+        key={ethersContext.account}
+        currentAccount={ethersContext.account as string}
       />
 
       <ProposeModal

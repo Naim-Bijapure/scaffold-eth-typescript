@@ -3,7 +3,7 @@ import cors from "cors";
 
 const app = express();
 const port = 4000;
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,7 +34,6 @@ app.post("/api/add", async (req, res) => {
 
             let updatedTranscactions = [
                 // ...oldTranscactions.filter((data) => data["proposalId"] !== transcactions[0]["proposalId"]),
-                // ...oldTranscactions,
                 ...transcactions,
             ];
             transcactionsData = [...updatedTranscactions];

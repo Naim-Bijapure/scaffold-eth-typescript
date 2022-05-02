@@ -51,7 +51,7 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
     setToggleLoading(true);
     const etherValue = value ? parseEther(value) : 0;
 
-    const nounce = await walletContract.nonce();
+    const nonce = await walletContract.nonce();
     const signatureRequired = await walletContract.signaturesRequired();
 
     const walletAddress = walletContract.address;
@@ -60,7 +60,7 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
     const currentToAddress = currentCallData === '0x' ? toAddress : walletAddress;
 
     const hash = await walletContract.getTransactionHash(
-      nounce.toNumber(),
+      nonce.toNumber(),
       // ethersContext.account as string,
       currentToAddress,
       etherValue.toString(),
@@ -69,7 +69,7 @@ const ProposeModal: React.FC<IProposeTranscaction> = ({
 
     const reqData = {
       proposalId: date.getMilliseconds(),
-      nounce: nounce.toNumber(),
+      nonce: nonce.toNumber(),
       eventName: selectedAction,
       contractAddress: walletAddress,
       from: ethersContext.account,

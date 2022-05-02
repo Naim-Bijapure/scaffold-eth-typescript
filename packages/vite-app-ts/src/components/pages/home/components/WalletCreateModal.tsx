@@ -9,8 +9,16 @@ interface IWalletCreateModal {
   onClose: (arg: any) => void;
   provider: any;
   price: number;
+  currentAccount: string;
 }
-const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, onClose, provider, price }) => {
+const WalletCreateModal: React.FC<IWalletCreateModal> = ({
+  openModal,
+  onSubmit,
+  onClose,
+  provider,
+  price,
+  currentAccount,
+}) => {
   const [currentAddress, setAddress] = useState<string>('');
   const [addressList, setAddressList] = useState<Array<string>>([]);
   const [signatureCount, setSignatureCount] = useState<number | null>(null);
@@ -30,11 +38,15 @@ const WalletCreateModal: React.FC<IWalletCreateModal> = ({ openModal, onSubmit, 
   };
   useEffect(() => {
     if (openModal === false) {
-      setAddressList([]);
-      setAddress('');
-      setSignatureCount(null);
+      // setAddressList([]);
+      // setAddress('');
+      // setSignatureCount(null);
     }
   }, [openModal]);
+
+  useEffect(() => {
+    setAddress(currentAccount);
+  }, []);
 
   return (
     <div>

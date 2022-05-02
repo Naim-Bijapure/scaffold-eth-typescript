@@ -26,19 +26,19 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
-  const MONYO_TOKEN_TOTAL_SUPPLY = '100';
-  const monyoDeployed = await deploy('Monyo', {
-    from: deployer,
-    args: [metaMultiSigWalletDeployed.address, hre.ethers.utils.parseEther(MONYO_TOKEN_TOTAL_SUPPLY)],
-    log: true,
-  });
+  // const MONYO_TOKEN_TOTAL_SUPPLY = '100';
+  // const monyoDeployed = await deploy('Monyo', {
+  //   from: deployer,
+  //   args: [metaMultiSigWalletDeployed.address, hre.ethers.utils.parseEther(MONYO_TOKEN_TOTAL_SUPPLY)],
+  //   log: true,
+  // });
 
   // await (deployer as any).sendTransaction({
   //   to: metaMultiSigWalletDeployed.address,
   //   value: hre.ethers.utils.parseEther('1.0'),
   // });
 
-  console.log('monyoDeployed: ', monyoDeployed.address);
+  // console.log('monyoDeployed: ', monyoDeployed.address);
   console.log('multiSigFactoryDeployed.address: ', multiSigFactoryDeployed.address);
   console.log('MetaMultiSigWalletDeployed: ', metaMultiSigWalletDeployed.address);
 };

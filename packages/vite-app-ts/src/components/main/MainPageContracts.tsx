@@ -42,7 +42,7 @@ export const MainPageContracts: FC<IMainPageContractsProps> = (props) => {
           blockExplorer={props.scaffoldAppProviders.targetNetwork.blockExplorer}
         />
         <Button
-          onClick={async (): any => {
+          onClick={async (): Promise<void> => {
             console.log('ethersContext: ', ethersContext.account);
             const tx = await yourContract?.setPurpose('yo man');
             const rcpt = await tx?.wait();
